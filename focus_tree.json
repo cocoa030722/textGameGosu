@@ -1,0 +1,31 @@
+{
+  "focus_tree": [
+    {
+      "id": "economic_reform",
+      "name": "Economic Reform",
+      "description": "Focus on stabilizing and boosting the economy.",
+      "prerequisites": [],
+      "effect": {
+        "money": 500
+      }
+    },
+    {
+      "id": "military_expansion",
+      "name": "Military Expansion",
+      "description": "Expand and modernize the army.",
+      "prerequisites": ["economic_reform"],
+      "effect": {
+        "infantry": 20
+      }
+    },
+    {
+      "id": "diplomatic_initiative",
+      "name": "Diplomatic Initiative",
+      "description": "Improve diplomatic relations worldwide.",
+      "prerequisites": ["economic_reform"],
+      "effect": {
+        "diplomacy": 10
+      }
+    }
+  ]
+}
