@@ -8,12 +8,7 @@ class Game:
         focus_tree = utils.load_json("focus_tree.json")
         self.player = Player("Hero", 100, focus_tree)
         self.enemy = Goblin("Goblin", 30)
-        self.commands = {
-            "start": commands.StartCommand(),
-            "explore": commands.ExploreCommand(),
-            "fight": commands.FightCommand(),
-            "quit": commands.QuitCommand()
-        }
+        self.commands = CommandFactory.create_commands()
         self.current_floor = 1
 
     def run(self):
