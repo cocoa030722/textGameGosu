@@ -21,6 +21,14 @@ class Player(Entity):
         """포커스의 선행 조건 확인"""
         return all(prerequisite in completed_focuses for prerequisite in self.focus_tree["prerequisites"])
 
+    def get_available_focuses(self):
+        """Returns list of available focus names that can be chosen"""
+        available = []
+        for focus in self.focus_tree["focus_tree"]:
+            if focus["id"] not in self.completed_focuses and all(prereq in self.completed_focuses for prereq in focus["prerequisites"]):
+                available.append(focus["name"])
+        return available
+
     def complete_focus(self, focus):
         """포커스를 완료하고 효과 적용"""
         print(f"\n=== Focus Completed: {focus['name']} ===")
