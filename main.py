@@ -1,6 +1,6 @@
-from modulegraph import ModuleGraph
-from graphviz import Digraph
 
+from graphviz import Digraph
+import sys
 import entity
 import player
 
@@ -22,24 +22,22 @@ class Game:
                 break
         print("Game Over.")
 
-
-def visualize_dependencies(entry_point: str):
-    mg = ModuleGraph()
-    mg.run_script(entry_point)
-
+def visualize_dependencies():
     dot = Digraph(comment="Module Dependency Tree")
-    for node in mg.flatten():
-        dot.node(node.identifier, node.identifier)
-
-        for edge in node.imports:
-            dot.edge(node.identifier, edge.identifier)
-
-    dot.render("dependencies.gv", view=True)
-
-
+    modules = ["main", "entity", "player"]
+    
+    for module in modules:
+        dot.node(module, module)
+    
+    # Add basic dependencies
+    dot.edge("main", "entity")
+    dot.edge("main", "player")
+    
+    dot.render("dependencies", view=True)
 
 if __name__ == "__main__":
-    #game=Game()
-    #game.run()
-    # main.py에서 시작하는 의존성 트리 생성
-    visualize_dependencies("main.py")
+    if len(sys.argv) > 1 and sys.argv[1] == "--viz":
+        visualize_dependencies()
+    else:
+        game = Game()
+        game.run()
