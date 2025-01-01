@@ -25,12 +25,8 @@ class Player(Entity):
         """Returns list of available focus names that can be chosen"""
         available = []
         for focus in self.focus_tree["focus_tree"]:
-            print(focus["id"])
-            print(self.completed_focuses)
-            print(focus["prerequisites"])
-            print(all(prereq in self.completed_focuses for prereq in focus["prerequisites"]))
             if focus["id"] not in self.completed_focuses and all(prereq in self.completed_focuses for prereq in focus["prerequisites"]):
-                available.append(focus["name"])
+                available.append(focus["id"])
         return available
 
     def complete_focus(self, focus):
