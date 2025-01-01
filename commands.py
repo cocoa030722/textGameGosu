@@ -48,7 +48,7 @@ class FocusCommand(Command):
 
 class FocusCheckCommand(Command):
     def execute(self, game, dungeon, player, *args):
-        player.see_focus_tree()
+        print(player.get_available_focuses())
 
 class FocusPickCommand(Command):
     def execute(self, game, dungeon, player, *args):
