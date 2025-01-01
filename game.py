@@ -22,13 +22,13 @@ class Game:
         while self.player.health > 0:#게임 루프를 계속할 조건
             action = int(input("1.시작 2.탐험 3.싸움 4.종료"))
             if action == 1:
-                self.commands["start"].execute()
+                self.commands["start"].execute(self)
             elif action == 2:
-                self.commands["explore"].execute()
+                self.commands["explore"].execute(self)
             elif action == 3:
-                self.commands["fight"].execute(game=self)
+                self.commands["fight"].execute(self)
             elif action == 4:
-                self.commands["quit"].execute()
+                self.commands["quit"].execute(self)
             else:
                 print("정의되지 않은 커맨드")
         print("Game Over.")
