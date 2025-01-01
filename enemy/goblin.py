@@ -1,4 +1,4 @@
-from npc.entity import Entity
+from entity import Entity
 
 class Goblin(Entity):
     def __init__(self, name, health):

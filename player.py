@@ -1,4 +1,4 @@
-from npc.entity import Entity
+from entity import Entity
 
 class Player(Entity):
     def __init__(self, name, health, focus_tree):
@@ -14,6 +14,9 @@ class Player(Entity):
     def take_damage(self, amount):
         super().take_damage(amount)
 
+    def see_focus_tree(self):
+        print(self.focus_tree)
+        
     def check_prerequisites(self, completed_focuses):
         """포커스의 선행 조건 확인"""
         return all(prerequisite in completed_focuses for prerequisite in self.focus_tree["prerequisites"])

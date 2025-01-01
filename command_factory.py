@@ -8,5 +8,6 @@ class CommandFactory:
             "start": commands.StartCommand(),
             "explore": commands.ExploreCommand(), 
             "fight": commands.FightCommand(),
-            "quit": commands.QuitCommand()
+            "quit": commands.QuitCommand(),
+            "focus": commands.FocusCommand(),
         }
