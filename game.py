@@ -2,12 +2,11 @@ from player import Player
 from enemy.goblin import Goblin
 from command_factory import CommandFactory
 from dungeon import Dungeon
-import utils
 
 class Game:
     def __init__(self):
-        focus_tree = utils.load_json("focus_tree.json")
-        self.player = Player("Hero", 100, focus_tree)
+        
+        self.player = Player("Hero", 100)
         self.enemy = Goblin("Goblin", 30)
         self.commands = CommandFactory.create_commands()
         self.dungeon = Dungeon()

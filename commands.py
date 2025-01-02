@@ -39,10 +39,10 @@ class FocusCommand(Command):
     def execute(self, game, dungeon, player, *args):
         sub_command = input("1.체크 2.픽")
         if sub_command == "1":
-            self.sub_commands["check"].execute(game, dungeon, player, *args[1:])
+            self.sub_commands["check"].execute(game, dungeon, player)
         elif sub_command == "2":
             
-            self.sub_commands["pick"].execute(game, dungeon, player, *args[1:])
+            self.sub_commands["pick"].execute(game, dungeon, player)
         else:
             print("Invalid settings command.")
 
@@ -52,7 +52,8 @@ class FocusCheckCommand(Command):
 
 class FocusPickCommand(Command):
     def execute(self, game, dungeon, player, *args):
-        print(args[0])
+        focus_node = input(player.get_available_focuses())
+        print(player.focus_tree["focus_tree"][focus_node])
         
 class QuitCommand(Command):
     def execute(self, game, dungeon, player):
