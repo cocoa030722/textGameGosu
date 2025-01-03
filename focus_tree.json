@@ -1,10 +1,22 @@
 {
   "focus_tree": [
+        {
+      "id": "begin_the_game",
+      "name": "게임 시작",
+      "description": "던전 공략을 시작합니다.",
+      "prerequisites": [],
+      "children": ["preparing_for_modern_warfare", "tradition_and_honor"],
+      "mutual_exclusion": [],
+      "effect": {
+        "money": 500
+      }
+    },
     {
       "id": "preparing_for_modern_warfare",
       "name": "현대전 준비",
       "description": "던전 내부에는 많은 적과 함정, 위험이 도사리고 있습니다. 고전적인 근거리 전투 이외의 방법을 구상함으로써 안전을 보장할 수 있습니다.",
       "prerequisites": [],
+      "children": ["inrush_tactics", "preparation_for_chemical_warfare"],
       "mutual_exclusion": ["tradition_and_honor"],
       "effect": {
         "money": 500
@@ -15,6 +27,8 @@
       "name": "돌입 전술",
       "description": "의심스러운 열린 문과 모퉁이 너머로 진입하기 전 미리 수류탄을 던져 매복에 대비합니다.",
       "prerequisites": ["preparing_for_modern_warfare"],
+      "children": [],
+      "mutual_exclusion": [],
       "effect": {
         "infantry": 20
       }
@@ -24,6 +38,8 @@
       "name": "화학전 준비",
       "description": "던전과 같은 밀폐된 공간은 화학무기를 사용하기 최적의 공간입니다. 간단한 방독면과 수면 가스만으로도 우리는 우위를 점할 수 있습니다.",
       "prerequisites": ["preparing_for_modern_warfare"],
+      "children": [],
+      "mutual_exclusion": [],
       "effect": {
         "diplomacy": 10
       }
@@ -33,6 +49,7 @@
       "name": "전통과 명예",
       "description": "승리는 신무기나 기책에서 오는 것이 아니라, 용기와 정신력에서 옵니다. 우리가 할 일은 검증된 전략을 숙달하는 것입니다.",
       "prerequisites": [],
+      "children": [],
       "mutual_exclusion": ["preparing_for_modern_warfare"],
       "effect": {
         "money": 500

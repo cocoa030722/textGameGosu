@@ -9,6 +9,8 @@ class Player(Entity):
         self.health = health
         
         self.focus_tree = utils.load_json("focus_tree.json")
+        self.focus_dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
+        
         self.completed_focuses = []
         
     def attack(self, target):
@@ -37,31 +39,27 @@ class Player(Entity):
     def render_focus_tree(self, focus_tree, completed_focuses):
         """포커스 트리를 Rich Tree로 렌더링"""
         tree = Tree("Focus Tree")
-    
-        focus_dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
-        rendered_focuses = set()
-
-        def add_focus_to_tree(tree, focus_id):
-            if focus_id in rendered_focuses:
-                return
-            focus = focus_dict[focus_id]
-            if focus["prerequisites"]:
-                for prerequisite in focus["prerequisites"]:
-                    if prerequisite not in rendered_focuses:
-                        add_focus_to_tree(tree, prerequisite)
-            focus_label = (
-                f"[green]{focus['name']}[/green]" if focus_id in self.completed_focuses else focus["name"]
-            )
-            focus_node = tree.add(focus_label)
-            rendered_focuses.add(focus_id)
-            return focus_node
-
-        for focus in self.focus_tree["focus_tree"]:
-            if len(focus["prerequisites"]) > 0:
-                add_focus_to_tree(tree, focus["id"])
-
+        # 트리 렌더링
+        def render_tree(nodes, root_id):
+            def add_children(tree, node_id):
+                node = nodes[node_id]
+                node_label = f"{node['id']}"
+                tree_node = tree.add(node_label)
+                for child_id in node["children"]:
+                    add_children(tree_node, child_id)
+                if node["mutual_exclusion"]:
+                    mutual_exclusive_label = f"[italic red]Mutual Exclusive: " + ", ".join(node["mutual_exclusion"]) + "[/italic red]"
+                    tree_node.add(mutual_exclusive_label)
+            root_node = Tree(f"[bold green]{root_id}[/bold green]")
+            add_children(root_node, root_id)
+            return root_node
+        
+        # 테스트 데이터 트리 렌더링
         console = Console()
+        tree = render_tree(self.focus_dict, "begin_the_game")
         console.print(tree)
+        
+
     def complete_focus(self, focus):
         """포커스를 완료하고 효과 적용"""
         print(f"\n=== Focus Completed: {focus['name']} ===")
