@@ -7,5 +7,6 @@ requires-python = ">=3.11"
 dependencies = [
     "graphviz>=0.20.3",
     "modulegraph>=0.19.6",
+    "pytest>=8.3.4",
     "rich>=13.9.4",
 ]
