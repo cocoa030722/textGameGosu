@@ -27,9 +27,15 @@ class Dungeon():
         return self.dungeon_data[self.current_floor]
 
     def get_random_element(self):
-        print(self.dungeon_data[self.current_floor])
-        event_group = random.choice(list(self.dungeon_data[self.current_floor].keys()))
-        event = random.choice(self.dungeon_data[self.current_floor][event_group])
+        floor_data = self.dungeon_data[self.current_floor]
+        total_events = len(floor_data["enemy"]) + len(floor_data["item"])
+        
+        # 전체 이벤트 + passage(1)에 대한 랜덤 선택
+        if random.randint(1, total_events + 1) == total_events + 1:
+            return "passage"
+            
+        event_group = random.choice(list(floor_data.keys()))
+        event = random.choice(floor_data[event_group])
         return event
         
     def is_here_boss_floor(self):
