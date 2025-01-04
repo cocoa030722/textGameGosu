@@ -16,8 +16,14 @@ class ExploreCommand(Command):
         
         if event == "passage":
             print("출구 발견!")
-            print("현 층수:",dungeon.current_floor)
-            dungeon.next_floor()
+            sub_command = input("다음 층으로 넘어가겠습니까?\n1.예 2.아니오")
+            if sub_command == "1":
+                dungeon.next_floor()
+                print("현 층수:",dungeon.current_floor)
+            elif sub_command == "2":
+                pass
+            else:
+                print("미정의 입력")
         else:
             print("탐색 실패")
 

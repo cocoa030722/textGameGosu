@@ -19,6 +19,7 @@ class Dungeon():
                 "boss":"alchemist",
             },
         }
+        self.MAX_FLOOR = len(self.dungeon_data)
 
     def show_cur_floor_info(self):
         print(self.dungeon_data[self.current_floor])
@@ -31,7 +32,9 @@ class Dungeon():
         total_events = len(floor_data["enemy"]) + len(floor_data["item"])
         
         # 전체 이벤트 + passage(1)에 대한 랜덤 선택
-        if random.randint(1, total_events + 1) == total_events + 1:
+        passage_rand = random.randint(1, total_events + 1)
+        
+        if passage_rand == total_events + 1:
             return "passage"
             
         event_group = random.choice(list(floor_data.keys()))
@@ -44,5 +47,5 @@ class Dungeon():
     
     def next_floor(self):
         self.current_floor+=1 
-        if self.current_floor <=  3:
-            self.current_floor=3
+        if self.current_floor >=  self.MAX_FLOOR:
+            self.current_floor=self.MAX_FLOOR

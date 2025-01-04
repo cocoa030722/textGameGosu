@@ -1,1 +1,1 @@
-passagepython -m pytest
+python -m pytest
