@@ -1,0 +1,1 @@
+passagepython -m pytest

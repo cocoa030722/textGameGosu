@@ -5,9 +5,8 @@ class CommandFactory:
     @staticmethod
     def create_commands():
         return {
-            "start": commands.StartCommand(),
+            "info": commands.InfoCommand(),
             "explore": commands.ExploreCommand(), 
-            "fight": commands.FightCommand(),
             "quit": commands.QuitCommand(),
             "focus": commands.FocusCommand(),
         }

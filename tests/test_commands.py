@@ -1,13 +1,13 @@
 
 import pytest
-from commands import StartCommand, ExploreCommand, FightCommand, QuitCommand
+from commands import InfoCommand, ExploreCommand, FightCommand, QuitCommand
 from game import Game
 from dungeon import Dungeon
 from player import Player
 
-def test_start_command():
+def test_info_command():
     game = Game()
-    command = StartCommand()
+    command = InfoCommand()
     try:
         command.execute(game, game.dungeon, game.player)
         assert True  # Command executed without errors
