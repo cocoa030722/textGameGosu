@@ -35,10 +35,11 @@ class Dungeon():
         passage_rand = random.randint(1, total_events + 1)
         
         if passage_rand == total_events + 1:
-            return "passage"
+            return Event("passage", "passage")
             
         event_group = random.choice(list(floor_data.keys()))
-        event = random.choice(floor_data[event_group])
+        event_name = random.choice(floor_data[event_group])
+        event = Event(event_group, event_name)
         return event
         
     def is_here_boss_floor(self):
@@ -49,3 +50,8 @@ class Dungeon():
         self.current_floor+=1 
         if self.current_floor >=  self.MAX_FLOOR:
             self.current_floor=self.MAX_FLOOR
+
+class Event:
+    def __init__(self, group, name):
+        self.group = group
+        self.name = name

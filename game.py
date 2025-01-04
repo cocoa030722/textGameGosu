@@ -1,15 +1,16 @@
 from player import Player
 from enemy.goblin import Goblin
-from command_factory import CommandFactory
+from factory.command_factory import CommandFactory
+from factory.enemy_factory import EnemyFactory
 from dungeon import Dungeon
 
 class Game:
     def __init__(self):
-        
-        self.player = Player("Hero", 100)
-        self.enemy = Goblin("Goblin", 30)
+        self.player = Player(name="Hero", health=100, attack_power=50, defense_power=50)
+        self.enemy = EnemyFactory.create_enemys()
         self.commands = CommandFactory.create_commands()
         self.dungeon = Dungeon()
+        print(self.enemy)
         
     def run(self):
         print("게임 시작!")

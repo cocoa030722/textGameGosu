@@ -4,9 +4,9 @@ from rich.console import Console
 import utils
 
 class Player(Entity):
-    def __init__(self, name, health):
-        self.name = name
-        self.health = health
+    def __init__(self, name, health, attack_power, defense_power):
+        super().__init__(name, health, attack_power, defense_power)
+        
         
         self.focus_tree = utils.load_json("focus_tree.json")
         self.focus_dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
@@ -15,10 +15,10 @@ class Player(Entity):
         
     def attack(self, target):
         print(f"{self.name} attacks {target.name}!")
-        target.take_damage(10)
+        target.take_damage(self.attack_power)
         
-    def take_damage(self, amount):
-        super().take_damage(amount)
+    def take_damage(self, attack):
+        super().take_damage(attack)
 
     def see_focus_tree(self):
         print(self.focus_tree)
