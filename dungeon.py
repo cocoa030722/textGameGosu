@@ -27,7 +27,7 @@ class Dungeon():
     def get_floor_info(self):
         return self.dungeon_data[self.current_floor]
 
-    def get_random_element(self) -> Event:
+    def get_random_element(self) -> 'Event':
         floor_data = self.dungeon_data[self.current_floor]
         total_events = len(floor_data["enemy"]) + len(floor_data["item"])
         if "boss" in floor_data:
