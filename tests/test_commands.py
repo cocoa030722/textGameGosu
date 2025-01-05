@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import patch
 from commands import InfoCommand, ExploreCommand, QuitCommand, FocusCommand
 from game import Game
-from dungeon import Dungeon
+from dungeon import Dungeon, Event
 from player import Player
 
 def test_info_command():
@@ -21,9 +21,27 @@ def test_explore_command():
     
     # "passage" 이벤트 발생 시 다음 층으로 이동하는 경우
     with patch('builtins.input', return_value="1"):
-        with patch('dungeon.Dungeon.get_random_element', return_value="passage"):
+        with patch('dungeon.Dungeon.get_random_element', return_value=Event("passage", "passage")):
             command.execute(game, game.dungeon, game.player)
             assert game.dungeon.current_floor > 1
+
+def test_fight_command():
+    game = Game()
+    command = ExploreCommand()
+    
+    # "passage" 이벤트 발생 시 다음 층으로 이동하는 경우
+    with patch('dungeon.Dungeon.get_random_element', return_value=Event("enemy", "goblin")):
+        with patch('builtins.input', return_value="1"):
+            try:
+                command.execute(game, game.dungeon, game.player)
+                assert True
+
+            except Exception:
+               assert False
+
+            
+
+
 
 """
 def test_focus_command():

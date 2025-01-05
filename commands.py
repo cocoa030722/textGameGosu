@@ -1,4 +1,5 @@
 import random
+import copy 
 
 class Command:
     def execute(self, game, dungeon, player):

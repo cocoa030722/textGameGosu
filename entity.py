@@ -11,7 +11,12 @@ class Entity(ABC):
         self.defense_power = defense_power
 
     @abstractmethod
-    def take_damage(self, attack):
-        self.health -= (attack - self.defense_power)
-        print(f"{self.name} takes {(attack - self.defense_power)} damage!")
+    def take_damage(self, attack_power):
+        self.health -= (attack_power - self.defense_power)
+        print(f"{self.name} takes {(attack_power - self.defense_power)} damage!")
+        
+        
+    """
+    attack, appear
+    """
         
