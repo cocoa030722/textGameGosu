@@ -1,5 +1,6 @@
 from entity import Entity
 import time
+from playsound import playsound
 
 class Alchemist(Entity):
     def __init__(self, name, health, attack_power, defense_power):
@@ -22,6 +23,7 @@ class Alchemist(Entity):
             time.sleep(0.5)
 
     def after_fight(self):
+        playsound("after_fight.mp3")
         for line in self.script["after_fight"]:
             print(line)
             time.sleep(0.5)
