@@ -37,7 +37,7 @@ class Ally(Entity):
         for line in self.script["increase_compliance"]:
             print(line)
             time.sleep(1)
-        self.compliance -= 10
+        self.compliance += 10
         print(f"{self.name} 순응도가 {10} 증가했다.")
 
     
