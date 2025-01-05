@@ -1,4 +1,3 @@
-
 import commands
 
 class CommandFactory:

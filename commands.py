@@ -2,6 +2,7 @@ import random
 import copy 
 import item
 
+from ally import Ally
 """
 최고 수준의 추상화를 담당하는 부분
 세부 로직은 가급적 하위 단위로 옮길 것
@@ -63,14 +64,16 @@ class ExploreFightCommand(Command):
             enemy.show_info()
         if enemy.health <= 0:
             print("플레이어 승리!")
-            info = dungeon.get_floor_info()
-            info["enemy"].remove(enemy.name)
             dungeon.show_cur_floor_info()
         elif player.health <= 0:
             print("플레이어 패배")
             exit()
 
 class ExploreBossFightCommand(Command):
+    def __init__(self) -> None:
+        self.sub_commands = {
+            "after_boss_fight":AfterBossFightCommand(),
+        }
     def execute(self, game, dungeon, player, *args, **kwargs):
         enemy = copy.deepcopy(game.enemy[kwargs["enemy_name"]])
         enemy.appear()
@@ -85,13 +88,36 @@ class ExploreBossFightCommand(Command):
             enemy.show_info()
         if enemy.health <= 0:
             print("플레이어 승리!")
-            info = dungeon.get_floor_info()
-            info["boss"].remove(enemy.name)
             dungeon.show_cur_floor_info()
+            
+            self.sub_commands["after_boss_fight"].execute(game, dungeon, player,  boss=enemy)
         elif player.health <= 0:
             print("플레이어 패배")
             exit()
+
+class AfterBossFightCommand(Command):
+    def execute(self, game, dungeon, player, *args, **kwargs):
+        boss = kwargs["boss"]
+        boss_name = boss.name
+        boss.after_fight()
         
+        print("보스를 물리쳤습니다!")
+        choice = input("최후의 일격을 가하시겠습니까, 아니면 동료로 편입시키겠습니까?\n(1.최후의 일격/2.\"동료\" 편입): ").strip()
+
+        if choice == "1":
+                print("보스를 처치하고 전리품을 얻었습니다!")
+        elif choice == "2":
+                
+                resistance = random.randint(30, 100)  # 30~100 사이 랜덤 저항도
+                compliance = random.randint(30, 100)  # 30~100 사이 랜덤 순응도
+                new_ally = Ally(boss_name, 50, 50, 50, resistance, compliance) # TODO:하드코딩된 임의의 값 수정
+                player.join_party(new_ally)
+                print(f"{boss_name}이(가) 동료로 편입되었습니다!")
+                print(f"저항도: {resistance}, 순응도: {compliance}")
+        else:
+                print("잘못된 선택입니다. 최후의 일격으로 간주합니다.")
+        
+    
 class ExplorePickCommand(Command):
     def execute(self, game, dungeon, player, *args, **kwargs):
         item_name = kwargs.get("item_name")

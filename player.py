@@ -101,3 +101,6 @@ class Player(Entity):
         # 포커스를 완료 리스트에 추가
         self.completed_focuses.append(focus["id"])
         print("Focus effect applied!")
+        
+    def join_party(self, ally):
+        self.party.append(ally)

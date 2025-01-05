@@ -12,15 +12,14 @@ class Entity(ABC):
 
     @abstractmethod
     def take_damage(self, attack_power):
-        self.health -= (attack_power - self.defense_power)
-        print(f"{self.name} takes {(attack_power - self.defense_power)} damage!")
+        damege = (attack_power - self.defense_power) if (attack_power - self.defense_power)>0 else 0
+        self.health -= damege
+        print(f"{self.name} takes {damege} damage!")
         
-    @abstractmethod
-    def appear(self):
+    def appear(self) -> None:
         print(f"{self.name} 등장")
 
-    @abstractmethod
-    def show_info(self):
+    def show_info(self) -> None:
         print(f"이름:{self.name}")
         print(f"hp:{self.health}")
         print(f"공격력:{self.attack_power}")
