@@ -13,7 +13,7 @@ class Player(Entity):
         self.focus_dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
         
         self.completed_focuses = []
-        self.party = []
+        self.party = {}
         
     def attack(self, target):
         print(f"{self.name} attacks {target.name}!")
@@ -71,9 +71,9 @@ class Player(Entity):
     def add_item(self, item):
         if len(self.inventory) < self.max_inventory:
             self.inventory.append(item)
-            print(f"{item.name} added to inventory!")
+            print(f"{item.name}  발견! 인벤토리에 추가했다.")
         else:
-            print("Inventory is full!")
+            print("인벤토리 가득 참!")
             
     def use_item(self, index):
         if 0 <= index < len(self.inventory):
@@ -103,4 +103,11 @@ class Player(Entity):
         print("Focus effect applied!")
         
     def join_party(self, ally):
-        self.party.append(ally)
+        self.party[ally.name] = ally
+
+    def show_party(self):
+        for i, ally in enumerate(self.party):
+            print(f"{i}. {self.party[ally].name}/저항도:{self.party[ally].resistance}, 순응도:{self.party[ally].compliance}")
+            
+    def call_party_member(self, ally_name):
+        return self.party[ally_name]

@@ -8,4 +8,6 @@ class CommandFactory:
             "explore": commands.ExploreCommand(), 
             "quit": commands.QuitCommand(),
             "focus": commands.FocusCommand(),
+            "inven": commands.InventoryCommand(),
+            "party": commands.PartyCommand()
         }

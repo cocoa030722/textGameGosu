@@ -1,4 +1,3 @@
-
 from abc import ABC, abstractmethod
 
 class Item(ABC):
@@ -10,6 +9,15 @@ class Item(ABC):
     def use(self, player):
         pass
 
+class Bread(Item):
+    def __init__(self, heal_amount=10):
+        super().__init__("Bread", "Restores health when consumed")
+        self.heal_amount = heal_amount
+        
+    def use(self, player):
+        player.health += self.heal_amount
+        print(f"{player.name} restored {self.heal_amount} health!")
+        
 class HealthPotion(Item):
     def __init__(self, heal_amount=30):
         super().__init__("Health Potion", "Restores health when consumed")

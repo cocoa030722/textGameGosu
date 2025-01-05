@@ -15,7 +15,7 @@ class Game:
         print("게임 시작!")
         
         while self.player.health > 0:#게임 루프를 계속할 조건
-            action = input("1.정보 2.탐험 3.종료 4.중점").split(" ")
+            action = input("1.정보 2.탐험 3.종료 4.중점 5.인벤토리 6.파티").split(" ")
             
             if action[0] == "1":
                 self.commands["info"].execute(self, self.dungeon, self.player)
@@ -25,6 +25,10 @@ class Game:
                 self.commands["quit"].execute(self, self.dungeon, self.player)
             elif action[0] == "4":
                 self.commands["focus"].execute(self, self.dungeon, self.player)
+            elif action[0] == "5":
+                self.commands["inven"].execute(self, self.dungeon, self.player)
+            elif action[0] == "6":
+                self.commands["party"].execute(self, self.dungeon, self.player)
             else:
                 print("정의되지 않은 커맨드")
         print("Game Over.")
