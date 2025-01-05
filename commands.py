@@ -58,11 +58,25 @@ class ExploreFightCommand(Command):
         enemy = copy.deepcopy(game.enemy[kwargs["enemy_name"]])
         enemy.appear()
         enemy.show_info()
-        while player.health > 0 and enemy.health > 0:
+        
+        fighter = player
+        if player.party:
+            print("\n=== 파티 멤버 ===")
+            player.show_party()
+            choice = input("누구를 보낼까요? (0: 직접 싸우기, 1~N: 파티 멤버): ")
+            if choice.isdigit() and int(choice) > 0 and int(choice) <= len(player.party):
+                fighter = list(player.party.values())[int(choice)-1]
+                print(f"{fighter.name}이(가) 싸움에 나섰다!")
+
+        while fighter.health > 0 and enemy.health > 0:
             sub_input = input("1.공격 2.도망")
             if sub_input == "1":
-                player.attack(enemy)
-                enemy.attack(player)
+                fighter.attack(enemy)
+                enemy.attack(fighter)
+                if fighter != player and fighter.health <= 0:
+                    print(f"{fighter.name}이(가) 쓰러졌다!")
+                    del player.party[fighter.name]
+                    return
             elif sub_input == "2":
                 print("무사히 도망쳤다.")
                 return
