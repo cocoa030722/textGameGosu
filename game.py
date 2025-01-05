@@ -10,7 +10,6 @@ class Game:
         self.enemy = EnemyFactory.create_enemys()
         self.commands = CommandFactory.create_commands()
         self.dungeon = Dungeon()
-        print(self.enemy)
         
     def run(self):
         print("게임 시작!")

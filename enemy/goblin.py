@@ -8,5 +8,10 @@ class Goblin(Entity):
         print(f"{self.name} attacks {target.name}!")
         target.take_damage(self.attack_power)
         
-    def take_damage(self, attack):
-        super().take_damage(attack)
+    def take_damage(self, attack_power):
+        super().take_damage(attack_power)
+    def appear(self):
+        super().appear()
+
+    def show_info(self):
+        super().show_info()

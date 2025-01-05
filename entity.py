@@ -15,7 +15,16 @@ class Entity(ABC):
         self.health -= (attack_power - self.defense_power)
         print(f"{self.name} takes {(attack_power - self.defense_power)} damage!")
         
-        
+    @abstractmethod
+    def appear(self):
+        print(f"{self.name} 등장")
+
+    @abstractmethod
+    def show_info(self):
+        print(f"이름:{self.name}")
+        print(f"hp:{self.health}")
+        print(f"공격력:{self.attack_power}")
+        print(f"방어력:{self.defense_power}")
     """
     attack, appear
     """
