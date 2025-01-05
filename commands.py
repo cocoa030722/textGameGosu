@@ -54,7 +54,11 @@ class ExploreFightCommand(Command):
 
 class ExplorePickCommand(Command):
     def execute(self, game, dungeon, player, *args, **kwargs):
-        pass
+        item_name = kwargs.get("item_name")
+        if item_name == "health_potion":
+            player.add_item(HealthPotion())
+        elif item_name == "sword":
+            player.add_item(Weapon("Steel Sword", 10))
 
 class FocusCommand(Command):
     def __init__(self) -> None:

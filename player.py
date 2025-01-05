@@ -6,7 +6,8 @@ import utils
 class Player(Entity):
     def __init__(self, name, health, attack_power, defense_power):
         super().__init__(name, health, attack_power, defense_power)
-        
+        self.inventory = []
+        self.max_inventory = 10
         
         self.focus_tree = utils.load_json("focus_tree.json")
         self.focus_dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
@@ -60,6 +61,28 @@ class Player(Entity):
         console.print(tree)
         
 
+    def add_item(self, item):
+        if len(self.inventory) < self.max_inventory:
+            self.inventory.append(item)
+            print(f"{item.name} added to inventory!")
+        else:
+            print("Inventory is full!")
+            
+    def use_item(self, index):
+        if 0 <= index < len(self.inventory):
+            item = self.inventory.pop(index)
+            item.use(self)
+        else:
+            print("Invalid item index!")
+            
+    def show_inventory(self):
+        if not self.inventory:
+            print("Inventory is empty!")
+            return
+        print("\n=== Inventory ===")
+        for i, item in enumerate(self.inventory):
+            print(f"{i}. {item.name}: {item.description}")
+            
     def complete_focus(self, focus):
         """포커스를 완료하고 효과 적용"""
         print(f"\n=== Focus Completed: {focus['name']} ===")
