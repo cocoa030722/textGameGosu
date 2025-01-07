@@ -15,6 +15,10 @@ class Entity(ABC):
         damege = (attack_power - self.defense_power) if (attack_power - self.defense_power)>0 else 0
         self.health -= damege
         print(f"{self.name} takes {damege} damage!")
+
+    def attack(self, target):
+        print(f"{self.name} attacks {target.name}!")
+        target.take_damage(self.attack_power)
         
     def appear(self) -> None:
         print(f"{self.name} 등장")

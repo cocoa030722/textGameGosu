@@ -1,13 +1,13 @@
 from .boss import Boss
+import utils
+
 import time
 
 class Alchemist(Boss):
     def __init__(self, name, health, attack_power, defense_power):
         super().__init__(name, health, attack_power, defense_power)
-        self.script:dict = {
-            "before_fight":["전투 전 대사 1", "전투 전 대사 2"],
-            "after_fight":["전투 후 대사 1", "전투 후 대사 2"],
-        }
+        self.script:dict = utils.load_json("json/boss_alchemist.json")
+        print(self.script)
 
     def attack(self, target):
         print(f"{self.name} attacks {target.name}!")

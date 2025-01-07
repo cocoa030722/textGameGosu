@@ -1,3 +1,8 @@
+"""
+실질적인 게임의 최상위 제어 흐름을 담당하는 파일입니다.
+이상적으로는, 유저 입력은 숫자 패드만으로도 가능하도록 합니다.
+이를 위해 유저 입력은 하나의 숫자(반드시 한 자리 숫자일 필요는 없음)를 문자열로서 대조하는 방식으로 처리합니다.
+"""
 from player import Player
 from enemy.goblin import Goblin
 from factory.command_factory import CommandFactory
@@ -5,13 +10,28 @@ from factory.enemy_factory import EnemyFactory
 from dungeon import Dungeon
 
 class Game:
+    """
+    main.py에서 단 한 번 생성되어 게임의 모든 정보를 포함하는 클래스입니다.
+    """
     def __init__(self):
+        """
+        게임의 하위 객체들을 생성합니다.
+        적, 커맨드 등 다수의 클래스를 묶어 관리해야 하는 경우 팩토리 클래스로 관리합니다.
+        """
         self.player = Player(name="Hero", health=100, attack_power=50, defense_power=50)
         self.enemy = EnemyFactory.create_enemys()
         self.commands = CommandFactory.create_commands()
         self.dungeon = Dungeon()
         
     def run(self):
+        """
+        게임의 최상위 로직입니다.
+        모든 유저 입력은 아래와 같이
+        1.입력
+        2.입력값 대조
+        3.해당하는 커맨드 실행
+        으로 이뤄집니다.
+        """
         print("게임 시작!")
         
         while self.player.health > 0:#게임 루프를 계속할 조건

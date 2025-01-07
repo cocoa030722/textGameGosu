@@ -9,7 +9,7 @@ class Player(Entity):
         self.inventory = []
         self.max_inventory = 10
         
-        self.focus_tree = utils.load_json("focus_tree.json")
+        self.focus_tree = utils.load_json("json/focus_tree.json")
         self.focus_dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
         
         self.completed_focuses = []

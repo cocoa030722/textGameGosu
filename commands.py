@@ -1,12 +1,13 @@
-import random
-import copy 
-import item
-
-from ally import Ally
 """
 최고 수준의 추상화를 담당하는 부분
 세부 로직은 가급적 하위 단위로 옮길 것
 """
+
+import random
+import copy 
+import item
+
+from ally.ally import Ally
 
 class Command:
     def execute(self, game, dungeon, player):
@@ -98,6 +99,7 @@ class ExploreBossFightCommand(Command):
     def execute(self, game, dungeon, player, *args, **kwargs):
         boss = copy.deepcopy(game.enemy[kwargs["enemy_name"]])
         boss.appear()
+        boss.show_script("before_fight")
         boss.show_info()
         while player.health > 0 and boss.health > 0:
             sub_input = input("1.공격") # 퇴각 불가
@@ -120,7 +122,7 @@ class AfterBossFightCommand(Command):
     def execute(self, game, dungeon, player, *args, **kwargs):
         boss = kwargs["boss"]
         boss_name = boss.name
-        boss.after_fight()
+        boss.show_script("after_fight")
         
         print("보스를 물리쳤습니다!")
         choice = input("최후의 일격을 가하시겠습니까, 아니면 동료로 편입시키겠습니까?\n(1.최후의 일격/2.\"동료\" 편입): ").strip()

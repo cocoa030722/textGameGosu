@@ -10,13 +10,14 @@ class Dungeon():
                 "item":["bread"]
             },
             2:{
-                "enemy":["goblin"],
-                "item":["bread"]
-            },
-            3:{
                 "enemy":[],
                 "item":[],
                 "boss":["alchemist"],
+            },
+            3:{
+                "enemy":["goblin"],
+                "item":[],
+                
             },
         }
         self.MAX_FLOOR = len(self.dungeon_data)
@@ -31,7 +32,10 @@ class Dungeon():
         floor_data = self.dungeon_data[self.current_floor]
         total_events = len(floor_data["enemy"]) + len(floor_data["item"])
         if "boss" in floor_data:
-            return Event("boss", floor_data["boss"].pop())
+            if len(floor_data["boss"]) > 0:
+                return Event("boss", floor_data["boss"].pop())
+            else:
+                return Event("passage", "passage")
         
         total_event_group = [key for key in floor_data if len(floor_data[key]) > 0]
                 
