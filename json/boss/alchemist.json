@@ -1,0 +1,11 @@
+{
+    "name": "alchemist",
+    "health": 200,
+    "attack_power": 10,
+    "defense_power": 0,
+    "behavior":["common_attack"],
+    "script": {
+        "before_fight":["확장성은 json평", "전투 전 대사 2"],
+        "after_fight":["전투 후 대사 1", "전투 후 대사 2"]
+    }
+}

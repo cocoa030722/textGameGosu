@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
 
-class Item(ABC):
+class Item():
     def __init__(self, name, description):
         self.name = name
         self.description = description
         
-    @abstractmethod
     def use(self, player):
         pass
 

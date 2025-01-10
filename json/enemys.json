@@ -1,0 +1,9 @@
+{
+    "goblin": {
+        "name": "goblin",
+        "health": 30,
+        "attack_power": 10,
+        "defense_power": 0,
+        "behavior":["common_attack"]
+    }
+}

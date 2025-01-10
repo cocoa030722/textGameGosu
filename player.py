@@ -1,7 +1,9 @@
 from entity import Entity
 from rich.tree import Tree
 from rich.console import Console
+
 import utils
+from item import Item
 
 class Player(Entity):
     def __init__(self, name, health, attack_power, defense_power):
@@ -68,13 +70,19 @@ class Player(Entity):
         console.print(tree)
         
 
-    def add_item(self, item):
+    def add_item(self, item_data):
         if len(self.inventory) < self.max_inventory:
+            #일단 아이템의 보편성 구현을 우선하고, 사용 기능을 일시적으로 삭제함
+            item = Item(
+                item_data["name"],
+                item_data["description"]
+                
+            )
             self.inventory.append(item)
             print(f"{item.name}  발견! 인벤토리에 추가했다.")
         else:
             print("인벤토리 가득 참!")
-            
+        
     def use_item(self, index):
         if 0 <= index < len(self.inventory):
             item = self.inventory.pop(index)
@@ -106,8 +114,11 @@ class Player(Entity):
         self.party[ally.name] = ally
 
     def show_party(self):
+        print("\n=== 파티 멤버 ===")
         for i, ally in enumerate(self.party):
             print(f"{i}. {self.party[ally].name}/저항도:{self.party[ally].resistance}, 순응도:{self.party[ally].compliance}")
             
     def call_party_member(self, ally_name):
         return self.party[ally_name]
+
+    

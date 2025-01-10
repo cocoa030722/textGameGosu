@@ -1,0 +1,15 @@
+{
+    "1":{
+        "enemy":["goblin"],
+        "item":["bread"]
+    },
+    "2":{
+        "enemy":[],
+        "item":[],
+        "boss":["alchemist"]
+    },
+    "3":{
+        "enemy":["goblin"],
+        "item":[]
+    }
+}

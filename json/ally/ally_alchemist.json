@@ -1,0 +1,13 @@
+{
+    "name": "alchemist",
+    "health": 200,
+    "attack_power": 10,
+    "defense_power": 0,
+    "resistance": 50, 
+    "compliance": 10,
+    "behavior":["common_attack"],
+    "script": {
+        "reduce_resistance":["저항 감소", "대사 2"],
+        "increase_compliance":["순응도 증가", "대사 2"]
+    }
+}

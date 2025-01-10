@@ -5,9 +5,6 @@
 
 import random
 import copy 
-import item
-
-from ally.ally import Ally
 
 class Command:
     def execute(self, game, dungeon, player):
@@ -27,10 +24,8 @@ class ExploreCommand(Command):
     def execute(self, game, dungeon, player):
         print("탐색중...")
         event = dungeon.get_random_element()
-        print(event.group, event.name)
         if event.group == "passage":
-            print("출구 발견!")
-            sub_input = input("다음 층으로 넘어가겠습니까?\n1.예 2.아니오")
+            sub_input = input("출구 발견! 다음 층으로 넘어가겠습니까?\n1.예 2.아니오")
             if sub_input == "1":
                 dungeon.next_floor()
                 print("현 층수:",dungeon.current_floor)
@@ -56,13 +51,13 @@ class ExploreCommand(Command):
 
 class ExploreFightCommand(Command):
     def execute(self, game, dungeon, player, *args, **kwargs):
-        enemy = copy.deepcopy(game.enemy[kwargs["enemy_name"]])
+        enemy = dungeon.make_enemy(game.enemy[kwargs["enemy_name"]])
+        #enemy = copy.deepcopy(game.enemy[kwargs["enemy_name"]])
         enemy.appear()
         enemy.show_info()
         
         fighter = player
         if player.party:
-            print("\n=== 파티 멤버 ===")
             player.show_party()
             choice = input("누구를 보낼까요? (0: 직접 싸우기, 1~N: 파티 멤버): ")
             if choice.isdigit() and int(choice) > 0 and int(choice) <= len(player.party):
@@ -97,10 +92,11 @@ class ExploreBossFightCommand(Command):
             "after_boss_fight":AfterBossFightCommand(),
         }
     def execute(self, game, dungeon, player, *args, **kwargs):
-        boss = copy.deepcopy(game.enemy[kwargs["enemy_name"]])
-        boss.appear()
+        boss = dungeon.make_boss(game.boss[kwargs["enemy_name"]])
+        #boss = copy.deepcopy(game.boss[kwargs["enemy_name"]])
         boss.show_script("before_fight")
         boss.show_info()
+        
         while player.health > 0 and boss.health > 0:
             sub_input = input("1.공격") # 퇴각 불가
             if sub_input == "1":
@@ -109,10 +105,10 @@ class ExploreBossFightCommand(Command):
             else:
                 print("미정의 입력")
             boss.show_info()
+            
         if boss.health <= 0:
             print("플레이어 승리!")
             dungeon.show_cur_floor_info()
-            
             self.sub_commands["after_boss_fight"].execute(game, dungeon, player,  boss=boss)
         elif player.health <= 0:
             print("플레이어 패배")
@@ -130,26 +126,19 @@ class AfterBossFightCommand(Command):
         if choice == "1":
             print("보스를 처치했습니다!")
         elif choice == "2":
-                
-            resistance = random.randint(30, 100)  # 30~100 사이 랜덤 저항도
-            compliance = random.randint(30, 100)  # 30~100 사이 랜덤 순응도
-            new_ally = Ally(boss_name, 50, 50, 50, resistance, compliance) # TODO:하드코딩된 임의의 값 수정
+            new_ally = dungeon.make_ally(game.ally[boss_name])
+            # new_ally = copy.deepcopy(game.ally[boss_name])
             player.join_party(new_ally)
             print(f"{boss_name}이(가) 동료로 편입되었습니다!")
-            print(f"저항도: {resistance}, 순응도: {compliance}")
+            print(f"저항도: {new_ally.resistance}, 순응도: {new_ally.compliance}")
         else:
             print("잘못된 선택입니다. 최후의 일격으로 간주합니다.")
         
-    
 class ExplorePickCommand(Command):
     def execute(self, game, dungeon, player, *args, **kwargs):
         item_name = kwargs.get("item_name")
-        if item_name == "bread":
-            player.add_item(item.Bread())
-        if item_name == "health_potion":
-            player.add_item(item.HealthPotion())
-        elif item_name == "sword":
-            player.add_item(item.Weapon("Steel Sword", 10))
+        if item_name in game.item_list:
+            player.add_item(game.item_list[item_name])#딕셔너리 정보를 전달하여, 아이템 생성과 추가를 플레이어가 하게 함
 
 class FocusCommand(Command):
     def __init__(self) -> None:
@@ -166,7 +155,7 @@ class FocusCommand(Command):
             
             self.sub_commands["pick"].execute(game, dungeon, player)
         else:
-            print("Invalid settings command.")
+            print("유효하지 않은 커맨드입니다.")
 
 class FocusCheckCommand(Command):
     def execute(self, game, dungeon, player, *args, **kwargs):
@@ -197,7 +186,7 @@ class InventoryCommand(Command):
             
             self.sub_commands["use"].execute(game, dungeon, player)
         else:
-            print("Invalid settings command.")
+            print("유효하지 않은 커맨드입니다.")
 
 class InventoryShowCommand(Command):
     def execute(self, game, dungeon, player):
@@ -224,7 +213,7 @@ class PartyCommand(Command):
             
             self.sub_commands["control"].execute(game, dungeon, player)
         else:
-            print("Invalid settings command.")
+            print("유효하지 않은 커맨드입니다.")
 
 class PartyShowCommand(Command):
     def execute(self, game, dungeon, player):
@@ -234,6 +223,6 @@ class PartyControlCommand(Command):
     def execute(self, game, dungeon, player):
         player.show_party()
         
-        ally_name = input("동료 이름 입력")
+        ally_name = input("동료 이름 입력:")
         player.call_party_member(ally_name).reduce_resistance()
         player.call_party_member(ally_name).increase_compliance()

@@ -4,10 +4,9 @@
 이를 위해 유저 입력은 하나의 숫자(반드시 한 자리 숫자일 필요는 없음)를 문자열로서 대조하는 방식으로 처리합니다.
 """
 from player import Player
-from enemy.goblin import Goblin
 from factory.command_factory import CommandFactory
-from factory.enemy_factory import EnemyFactory
 from dungeon import Dungeon
+import utils
 
 class Game:
     """
@@ -19,7 +18,10 @@ class Game:
         적, 커맨드 등 다수의 클래스를 묶어 관리해야 하는 경우 팩토리 클래스로 관리합니다.
         """
         self.player = Player(name="Hero", health=100, attack_power=50, defense_power=50)
-        self.enemy = EnemyFactory.create_enemys()
+        self.enemy = utils.load_json("json/enemys.json")
+        self.boss = utils.read_all_json("json/boss")
+        self.ally = utils.read_all_json("json/ally")
+        self.item_list = utils.load_json("json/items.json")
         self.commands = CommandFactory.create_commands()
         self.dungeon = Dungeon()
         

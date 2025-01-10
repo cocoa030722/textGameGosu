@@ -1,0 +1,21 @@
+
+{
+    "bread": {
+        "type": "bread",
+        "name": "Bread",
+        "description": "Restores health when consumed",
+        "heal_amount": 10
+    },
+    "health_potion": {
+        "type": "health_potion",
+        "name": "Health Potion", 
+        "description": "Restores health when consumed",
+        "heal_amount": 30
+    },
+    "steel_sword": {
+        "type": "weapon",
+        "name": "Steel Sword",
+        "description": "Increases attack power",
+        "attack_bonus": 10
+    }
+}

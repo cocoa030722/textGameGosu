@@ -1,13 +1,10 @@
-from entity import Entity
+from enemy.enemy import Enemy
 import time
 
-class Boss(Entity):
-    def __init__(self, name, health, attack_power, defense_power):
+class Boss(Enemy):
+    def __init__(self, name, health, attack_power, defense_power, script):
         super().__init__(name, health, attack_power, defense_power)
-        self.script:dict = {
-            "before_fight":["전투 전 대사 플레이스홀더", "전투 전 대사 2"],
-            "after_fight":["전투 후 대사 플레이스홀더", "전투 후 대사 2"],
-        }
+        self.script:dict = script
 
     def attack(self, target):
         print(f"{self.name} attacks {target.name}!")
@@ -17,7 +14,6 @@ class Boss(Entity):
         super().take_damage(attack_power)
 
     def after_fight(self):
-        
         for line in self.script["after_fight"]:
             print(line)
             time.sleep(1)
@@ -26,5 +22,6 @@ class Boss(Entity):
         for line in self.script[situation]:
             print(line)
             time.sleep(1)
+            
     def show_info(self):
         super().show_info()
