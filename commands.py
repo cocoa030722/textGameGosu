@@ -1,11 +1,7 @@
-
 """
 최고 수준의 추상화를 담당하는 부분
 세부 로직은 가급적 하위 단위로 옮길 것
 """
-
-import random
-import copy 
 from rich.console import Console
 from rich.prompt import Prompt
 
@@ -72,7 +68,7 @@ class ExploreFightCommand(Command):
             sub_input = Prompt.ask("[bold cyan]행동을 선택하세요[/bold cyan]\n1.공격 2.도망")
             if sub_input == "1":
                 fighter.attack(enemy)
-                enemy.attack(fighter)
+                enemy.perform_behavior("common_attack")
                 if fighter != player and fighter.health <= 0:
                     print(f"{fighter.name}이(가) 쓰러졌다!")
                     del player.party[fighter.name]

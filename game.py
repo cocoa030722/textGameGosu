@@ -17,13 +17,13 @@ class Game:
         게임의 하위 객체들을 생성합니다.
         적, 커맨드 등 다수의 클래스를 묶어 관리해야 하는 경우 팩토리 클래스로 관리합니다.
         """
-        self.player = Player(name="Hero", health=100, attack_power=50, defense_power=50)
-        self.enemy = utils.load_json("json/enemys.json")
-        self.boss = utils.read_all_json("json/boss")
-        self.ally = utils.read_all_json("json/ally")
-        self.item_list = utils.load_json("json/items.json")
-        self.commands = CommandFactory.create_commands()
-        self.dungeon = Dungeon()
+        self.player:Player = Player(name="Hero", health=100, attack_power=50, defense_power=50)
+        self.enemy:dict = utils.load_json("json/enemys.json")
+        self.boss:dict = utils.read_all_json("json/boss")
+        self.ally:dict = utils.read_all_json("json/ally")
+        self.item_list:dict = utils.load_json("json/items.json")
+        self.commands:dict = CommandFactory.create_commands()
+        self.dungeon:Dungeon = Dungeon()
         
     def run(self):
         """

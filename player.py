@@ -1,3 +1,7 @@
+"""
+게임 내 플레이어의 정보와 행동을 정의하는 코드입니다.
+"""
+from ally.ally import Ally
 from entity import Entity
 from rich.tree import Tree
 from rich.console import Console
@@ -6,22 +10,25 @@ import utils
 from item import Item
 
 class Player(Entity):
-    def __init__(self, name, health, attack_power, defense_power):
+    """
+    플레이어가 가지는 정보와 가능한 행동들을 담은 클래스입니다.
+    """
+    def __init__(self, name:str, health:int, attack_power:int, defense_power:int):
         super().__init__(name, health, attack_power, defense_power)
-        self.inventory = []
-        self.max_inventory = 10
+        self.inventory:list = []
+        self.max_inventory:int = 10
         
-        self.focus_tree = utils.load_json("json/focus_tree.json")
-        self.focus_dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
+        self.focus_tree:dict = utils.load_json("json/focus_tree.json")
+        self.focus_dict:dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
         
-        self.completed_focuses = []
-        self.party = {}
+        self.completed_focuses:list = []
+        self.party:dict = {}
         
-    def attack(self, target):
+    def attack(self, target:Entity):
         print(f"{self.name} attacks {target.name}!")
         target.take_damage(self.attack_power)
         
-    def take_damage(self, attack_power):
+    def take_damage(self, attack_power:int):
         super().take_damage(attack_power)
 
     def appear(self):
@@ -38,7 +45,9 @@ class Player(Entity):
         return all(prerequisite in completed_focuses for prerequisite in self.focus_tree["prerequisites"])
 
     def get_available_focuses(self):
-        """Returns list of available focus names that can be chosen"""
+        """
+        Returns list of available focus names that can be chosen
+        """
         available = []
         for focus in self.focus_tree["focus_tree"]:
                 if focus["id"] not in self.completed_focuses and all(prereq in self.completed_focuses for prereq in focus["prerequisites"]):
@@ -47,7 +56,9 @@ class Player(Entity):
         return available
 
     def render_focus_tree(self, focus_tree, completed_focuses):
-        """포커스 트리를 Rich Tree로 렌더링"""
+        """
+        포커스 트리를 Rich Tree로 렌더링
+        """
         tree = Tree("Focus Tree")
         # 트리 렌더링
         def render_tree(nodes, root_id):
@@ -70,9 +81,9 @@ class Player(Entity):
         console.print(tree)
         
 
-    def add_item(self, item_data):
+    def add_item(self, item_data:dict):
         if len(self.inventory) < self.max_inventory:
-            #일단 아이템의 보편성 구현을 우선하고, 사용 기능을 일시적으로 삭제함
+            #FIXME:일단 아이템의 보편성 구현을 우선하고, 사용 기능을 일시적으로 삭제함
             item = Item(
                 item_data["name"],
                 item_data["description"]
@@ -83,7 +94,7 @@ class Player(Entity):
         else:
             print("인벤토리 가득 참!")
         
-    def use_item(self, index):
+    def use_item(self, index:int):
         if 0 <= index < len(self.inventory):
             item = self.inventory.pop(index)
             item.use(self)
@@ -92,25 +103,27 @@ class Player(Entity):
             
     def show_inventory(self):
         if not self.inventory:
-            print("Inventory is empty!")
+            print("인벤토리에는 아무것도 없다!")
             return
-        print("\n=== Inventory ===")
+        print("\n=== 인벤토리 ===")
         for i, item in enumerate(self.inventory):
             print(f"{i}. {item.name}: {item.description}")
             
-    def complete_focus(self, focus):
-        """포커스를 완료하고 효과 적용"""
+    def complete_focus(self, focus:dict):
+        """
+        포커스를 완료하고 효과 적용
+        """
         print(f"\n=== Focus Completed: {focus['name']} ===")
         print(focus["description"])
         
-        # 포커스 효과 적용
+        # TODO:포커스 효과 적용
         
         
         # 포커스를 완료 리스트에 추가
         self.completed_focuses.append(focus["id"])
         print("Focus effect applied!")
         
-    def join_party(self, ally):
+    def join_party(self, ally:Ally):
         self.party[ally.name] = ally
 
     def show_party(self):
@@ -118,7 +131,7 @@ class Player(Entity):
         for i, ally in enumerate(self.party):
             print(f"{i}. {self.party[ally].name}/저항도:{self.party[ally].resistance}, 순응도:{self.party[ally].compliance}")
             
-    def call_party_member(self, ally_name):
+    def call_party_member(self, ally_name) -> Ally:
         return self.party[ally_name]
 
     

@@ -1,36 +1,20 @@
-from abc import ABC, abstractmethod
+"""
+게임에서의 아이템을 구현하는 코드입니다.
+"""
 
 class Item():
-    def __init__(self, name, description):
-        self.name = name
-        self.description = description
+    """
+    아이템의 정보와 행동을 저장하는 클래스입니다.
+    각 아이템을 개별적인 클래스로 구현현하는 것이 아닌, Item 클래스의 정보만을 달리하여 각각의 아이템을 구현합니다.
+    """
+    def __init__(self, name:str, description:str):
+        self.name:str = name
+        self.description:str = description
         
-    def use(self, player):
+    def use(self, player:"Player"):
+        """
+        모든 아이템은 사용 시 호출되는  use 메소드를 가집니다.
+        구체적 구현은 아직 없습니다.
+        """
         pass
 
-class Bread(Item):
-    def __init__(self, heal_amount=10):
-        super().__init__("Bread", "Restores health when consumed")
-        self.heal_amount = heal_amount
-        
-    def use(self, player):
-        player.health += self.heal_amount
-        print(f"{player.name} restored {self.heal_amount} health!")
-        
-class HealthPotion(Item):
-    def __init__(self, heal_amount=30):
-        super().__init__("Health Potion", "Restores health when consumed")
-        self.heal_amount = heal_amount
-        
-    def use(self, player):
-        player.health += self.heal_amount
-        print(f"{player.name} restored {self.heal_amount} health!")
-
-class Weapon(Item):
-    def __init__(self, name, attack_bonus):
-        super().__init__(name, f"Increases attack power by {attack_bonus}")
-        self.attack_bonus = attack_bonus
-        
-    def use(self, player):
-        player.attack_power += self.attack_bonus
-        print(f"{player.name}'s attack power increased by {self.attack_bonus}!")

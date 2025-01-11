@@ -1,12 +1,15 @@
+"""
+보스전 이후 생성되는 동료의 정보와 행동을 정의합니다.
+"""
 from entity import Entity
 import time
 
 class Ally(Entity):
-    def __init__(self, name, health, attack_power, defense_power, resistance, compliance, script):
+    def __init__(self, name, health, attack_power, defense_power, resistance:int, compliance:int, script:dict):
         super().__init__(name, health, attack_power, defense_power)
-        self.resistance = resistance  # 저항도 (높을수록 반항적)
-        self.compliance = compliance  # 순응도 (높을수록 협조적)
-        self.script = script
+        self.resistance:int = resistance  # 저항도 (높을수록 반항적)
+        self.compliance:int = compliance  # 순응도 (높을수록 협조적)
+        self.script:dict = script
         
     def behavior_effect(self) -> dict:
         """동료의 저항도와 순응도에 따른 이익/불이익 계산"""
@@ -20,9 +23,7 @@ class Ally(Entity):
             print(f"{self.name}은(는) 평범하게 행동합니다.")
             return {"bonus_damage": 0, "bonus_healing": 0}
     
-    def take_damage(self, attack_power):
-        super().take_damage(attack_power)
-
+    
     def reduce_resistance(self):
         for line in self.script["reduce_resistance"]:
             print(line)

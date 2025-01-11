@@ -1,12 +1,21 @@
+"""
+코드 내에서 많이 쓰이는 스니펫들의 모음입니다.
+"""
 import json
 import os
 
 # JSON 파일 로드
-def load_json(file_path):
+def load_json(file_path:str) -> dict:
+    """
+    하나의 json을 딕셔너리로 반환합니다.
+    """
     with open(file_path, "r") as file:
         return json.load(file)
 
-def read_all_json(directory):
+def read_all_json(directory:str) -> dict:
+    """
+    특정 디렉토리 내의 모든 json을 읽어들이고, 각 json에서 나온 딕셔너리를 하나의 딕셔너리에 담아 반환합니다.
+    """
     json_data = {}
     try:
         # 디렉토리 내 모든 파일 탐색

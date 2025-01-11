@@ -2,7 +2,7 @@ import commands
 
 class CommandFactory:
     @staticmethod
-    def create_commands():
+    def create_commands()->dict:
         return {
             "info": commands.InfoCommand(),
             "explore": commands.ExploreCommand(), 
