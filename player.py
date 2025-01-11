@@ -73,8 +73,8 @@ class Player(Entity):
             #FIXME:일단 아이템의 보편성 구현을 우선하고, 사용 기능을 일시적으로 삭제함
             item = Item(
                 item_data["name"],
-                item_data["description"]
-                
+                item_data["description"],
+                **item_data
             )
             self.inventory.append(item)
             print(f"{item.name}  발견! 인벤토리에 추가했다.")
