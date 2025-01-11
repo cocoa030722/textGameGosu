@@ -67,8 +67,8 @@ class ExploreFightCommand(Command):
         while fighter.health > 0 and enemy.health > 0:
             sub_input = Prompt.ask("[bold cyan]행동을 선택하세요[/bold cyan]\n1.공격 2.도망")
             if sub_input == "1":
+                enemy.attack(fighter)
                 fighter.attack(enemy)
-                enemy.perform_behavior("common_attack")
                 if fighter != player and fighter.health <= 0:
                     print(f"{fighter.name}이(가) 쓰러졌다!")
                     del player.party[fighter.name]
