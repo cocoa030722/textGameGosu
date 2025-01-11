@@ -12,8 +12,7 @@ class Enemy(Entity):
             self.add_behavior(behavior, behavior_map[behavior])
             
     def attack(self, target:Entity):
-        
-        print(f"{self.name} attacks {target.name}!")
+        self.perform_behavior("common_attack")
         target.take_damage(self.attack_power)
 
     def add_behavior(self, name, behavior):
