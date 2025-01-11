@@ -15,7 +15,6 @@ class Game:
     def __init__(self):
         """
         게임의 하위 객체들을 생성합니다.
-        적, 커맨드 등 다수의 클래스를 묶어 관리해야 하는 경우 팩토리 클래스로 관리합니다.
         """
         self.player:Player = Player(name="Hero", health=100, attack_power=50, defense_power=50)
         self.enemy:dict = utils.load_json("json/enemys.json")

@@ -17,5 +17,11 @@
         "name": "Steel Sword",
         "description": "Increases attack power",
         "attack_bonus": 10
+    },
+    "beer": {
+        "type": "other",
+        "name": "맥주",
+        "description": "시원원한 맥주ㅅ",
+        "reduce_resistance": 10
     }
 }

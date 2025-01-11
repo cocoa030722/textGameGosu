@@ -13,7 +13,7 @@ class Item():
         
     def use(self, player:"Player"):
         """
-        모든 아이템은 사용 시 호출되는  use 메소드를 가집니다.
+        모든 아이템은 사용 시 호출되는 use 메소드를 가집니다.
         구체적 구현은 아직 없습니다.
         """
         pass

@@ -19,14 +19,16 @@ class Enemy(Entity):
 
     def perform_behavior(self, name, **kwargs):
         if name in self.behaviors:
-            result = self.behaviors[name].execute(self)
-            print(result)
+            result_dict = self.behaviors[name].execute(self)
+            print(result_dict)
             
-            # Handle attack specific behavior
-            if name == "common_attack" and "target" in kwargs:
+            # TODO:특수 케이스의 보편화
+            if "target" in kwargs:
                 kwargs["target"].take_damage(self.attack_power)
-            
-            return result
+                if "status" in result_dict:
+                    kwargs["target"].status=result_dict["status"]
+
+            return result_dict["result"]
         else:
             message = f"{self.name} doesn't know how to perform {name}."
             print(message)

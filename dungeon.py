@@ -69,11 +69,12 @@ class Dungeon():
 
     def make_boss(self, data):
         return Boss(
-                name=data["name"],
-                health=data["health"],
-                attack_power=data["attack_power"],
-                defense_power=data["defense_power"],
-                script=data["script"]
+            name=data["name"],
+            health=data["health"],
+            attack_power=data["attack_power"],
+            defense_power=data["defense_power"],
+            script=data["script"],
+            behavior_list=data["behavior"]
         )
         
     

@@ -24,19 +24,6 @@ class Player(Entity):
         self.completed_focuses:list = []
         self.party:dict = {}
         
-    def attack(self, target:Entity):
-        print(f"{self.name} attacks {target.name}!")
-        target.take_damage(self.attack_power)
-        
-    def take_damage(self, attack_power:int):
-        super().take_damage(attack_power)
-
-    def appear(self):
-        super().appear()
-
-    def show_info(self):
-        super().show_info()
-        
     def see_focus_tree(self):
         print(self.focus_tree)
         

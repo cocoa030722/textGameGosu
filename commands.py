@@ -67,8 +67,18 @@ class ExploreFightCommand(Command):
         while fighter.health > 0 and enemy.health > 0:
             sub_input = Prompt.ask("[bold cyan]행동을 선택하세요[/bold cyan]\n1.공격 2.도망")
             if sub_input == "1":
+                """
+                공격 전 로직
+                """
+                enemy.pre_turn()
+                fighter.pre_turn()
                 enemy.attack(fighter)
                 fighter.attack(enemy)
+                """
+                공격 후 로직
+                """
+                enemy.post_turn()
+                fighter.post_turn()
                 if fighter != player and fighter.health <= 0:
                     print(f"{fighter.name}이(가) 쓰러졌다!")
                     del player.party[fighter.name]
@@ -79,6 +89,7 @@ class ExploreFightCommand(Command):
             else:
                 print("미정의 입력")
             enemy.show_info()
+            
         if enemy.health <= 0:
             print("플레이어 승리!")
             dungeon.show_cur_floor_info()
