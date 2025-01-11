@@ -12,14 +12,22 @@ class Enemy(Entity):
             self.add_behavior(behavior, behavior_map[behavior])
             
     def attack(self, target:Entity):
-        self.perform_behavior("common_attack")
-        target.take_damage(self.attack_power)
+        self.perform_behavior("common_attack", target=target)
 
     def add_behavior(self, name, behavior):
         self.behaviors[name] = behavior
 
-    def perform_behavior(self, name):
+    def perform_behavior(self, name, **kwargs):
         if name in self.behaviors:
-            print(self.behaviors[name].execute(self))
+            result = self.behaviors[name].execute(self)
+            print(result)
+            
+            # Handle attack specific behavior
+            if name == "common_attack" and "target" in kwargs:
+                kwargs["target"].take_damage(self.attack_power)
+            
+            return result
         else:
-            print(f"{self.name} doesn't know how to perform {name}.")
+            message = f"{self.name} doesn't know how to perform {name}."
+            print(message)
+            return message
