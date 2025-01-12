@@ -46,8 +46,7 @@ class Player(Entity):
             
         self.mp -= 50
         for ally in self.party.values():
-            ally.resistance = 0
-            ally.compliance = 100
+            ally.martial_law()
             print(f"{ally.name}의 저항도/순응도가 강제 조정되었습니다. (저항도: 0, 순응도: 100)")
             
     def toggle_passive_control(self):

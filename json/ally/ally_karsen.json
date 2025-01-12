@@ -8,6 +8,7 @@
     "behavior":["common_attack"],
     "script": {
         "reduce_resistance":["저항 감소", "대사 2"],
-        "increase_compliance":["순응도 증가", "대사 2"]
+        "increase_compliance":["순응도 증가", "대사 2"],
+        "martial_law":["강제 조정 1", "강제 조정 2"]
     }
 }

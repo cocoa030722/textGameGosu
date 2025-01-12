@@ -24,18 +24,24 @@ class Ally(Entity):
             return {"bonus_damage": 0, "bonus_healing": 0}
     
     
-    def reduce_resistance(self):
-        for line in self.script["reduce_resistance"]:
-            print(line)
-            time.sleep(1)
-        self.resistance -= 10
-        print(f"{self.name} 저항도가 {10} 감소했다.")
+    def reduce_resistance(self, amount:int):
+        self._show_script("reduce_resistance")
+        self.resistance -= amount
+        print(f"{self.name} 저항도가 {amount} 감소했다.")
 
-    def increase_compliance(self):
-        for line in self.script["increase_compliance"]:
+    def increase_compliance(self, amount:int):
+        self._show_script("increase_compliance")
+        self.compliance += amount
+        print(f"{self.name} 순응도가 {amount} 증가했다.")
+
+    def martial_law(self):
+        self._show_script("martial_law")
+        self.resistance = 0
+        self.compliance = 100
+        
+    def _show_script(self, situation):
+        for line in self.script[situation]:
             print(line)
             time.sleep(1)
-        self.compliance += 10
-        print(f"{self.name} 순응도가 {10} 증가했다.")
 
     

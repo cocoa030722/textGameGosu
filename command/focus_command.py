@@ -1,3 +1,6 @@
+from command.command import Command
+from rich.prompt import Prompt
+
 class FocusCommand(Command):
     def __init__(self) -> None:
         self.sub_commands = {
