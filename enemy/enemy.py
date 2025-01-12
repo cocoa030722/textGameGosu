@@ -8,7 +8,7 @@ class Enemy(Entity):
     def __init__(self, name:str, health:int, attack_power:int, defense_power:int, behavior_list:list, exp:int):
         super().__init__(name, health, attack_power, defense_power)
         self.behaviors:dict = {}
-        self.exp:int = exp
+        self.stats.exp = exp
         for behavior in behavior_list:
             self.add_behavior(behavior, behavior_map[behavior])
             
