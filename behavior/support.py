@@ -6,7 +6,7 @@ DTO로 할지 어쩔지 감이 안잡힘
 from .behavior import Behavior
 from status import Status
 
-class SupportBehavior:
+class SupportData:
     def __init__(self, result:str):
         # 출력할 텍스트
         self.result:str = result
@@ -30,11 +30,6 @@ class SpreadParalyzingPowder(Behavior):
             "result":f"{enemy.name}:마비가루를 뿌렸다!",
             "status":Status.PARALYSIS
         }
-
-
-        
-from .behavior import Behavior
-from status import Status
 
 class HealingSupport(Behavior):
     def execute(self, ally, **kwargs) -> dict:

@@ -25,7 +25,8 @@ class Game:
         self.dungeon:Dungeon = Dungeon()
         #TODO:턴 개념 구현
         self.turn:int = 0
-        
+        #TODO:디버그 모드 구현
+        self.debug:bool = False
     def run(self):
         """
         게임의 최상위 로직입니다.
