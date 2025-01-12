@@ -3,8 +3,9 @@
 DTO로 할지 어쩔지 감이 안잡힘
 """
 
-from .behavior import Behavior
+from .behavior import Behavior, SupportBehavior #Added SupportBehavior import
 from status import Status
+from entity import Entity #Added Entity import
 
 class SupportData:
     def __init__(self, result:str):
@@ -31,31 +32,31 @@ class SpreadParalyzingPowder(Behavior):
             "status":Status.PARALYSIS
         }
 
-class HealingSupport(Behavior):
-    def execute(self, ally, **kwargs) -> dict:
+class HealingSupport(SupportBehavior):
+    def execute(self, supporter: Entity, allies: list[Entity], **kwargs) -> dict:
         heal_amount = 20
-        if ally.compliance > 70:
+        if hasattr(supporter, 'compliance') and supporter.compliance > 70:
             heal_amount += 10
-        
+
         return {
-            "result": f"{ally.name}이(가) {heal_amount}만큼 회복해줍니다!",
+            "result": f"{supporter.name}이(가) {heal_amount}만큼 회복해줍니다!",
             "heal_amount": heal_amount
         }
 
-class DefenseBoost(Behavior):
-    def execute(self, ally, **kwargs) -> dict:
+class DefenseBoost(SupportBehavior):
+    def execute(self, supporter: Entity, allies: list[Entity], **kwargs) -> dict:
         defense_boost = 5
-        if ally.compliance > 70:
+        if hasattr(supporter, 'compliance') and supporter.compliance > 70:
             defense_boost += 5
-            
+
         return {
-            "result": f"{ally.name}이(가) 방어력을 {defense_boost}만큼 올려줍니다!",
+            "result": f"{supporter.name}이(가) 방어력을 {defense_boost}만큼 올려줍니다!",
             "defense_boost": defense_boost
         }
 
-class RemovePoison(Behavior):
-    def execute(self, ally, **kwargs) -> dict:
+class RemovePoison(SupportBehavior):
+    def execute(self, supporter: Entity, allies: list[Entity], **kwargs) -> dict:
         return {
-            "result": f"{ally.name}이(가) 독을 치료해줍니다!",
+            "result": f"{supporter.name}이(가) 독을 치료해줍니다!",
             "status": Status.NORMAL
         }
