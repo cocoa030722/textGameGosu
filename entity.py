@@ -46,6 +46,11 @@ class Entity:
             self.attack_probability = 10
         else:
             self.attack_probability = 100
+            
+        if hasattr(self, 'mp') and hasattr(self, 'max_mp'):
+            self.mp = min(self.max_mp, self.mp + 10)
+            if hasattr(self, 'passive_control_enabled') and self.passive_control_enabled:
+                self.passive_magic_control()
         
     def post_turn(self):
         if self.status == Status.POISON:

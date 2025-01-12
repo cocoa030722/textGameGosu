@@ -23,8 +23,38 @@ class Player(Entity):
         
         self.completed_focuses:list = []
         self.party:dict = {}
-        # TODO:마력 기능 구현
-        self.mp:int = 0
+        self.mp:int = 100
+        self.max_mp:int = 100
+        self.passive_control_enabled:bool = False
+        
+    def passive_magic_control(self):
+        """MP를 소량 소모하여 자동으로 동료들의 저항도를 감소시키고 순응도를 증가시킵니다."""
+        if self.mp < 5 or not self.passive_control_enabled:
+            return
+            
+        self.mp -= 5
+        for ally in self.party.values():
+            ally.resistance = max(0, ally.resistance - 5)
+            ally.compliance = min(100, ally.compliance + 5)
+            print(f"{ally.name}의 저항도/순응도가 변화했습니다. (저항도: {ally.resistance}, 순응도: {ally.compliance})")
+            
+    def martial_law(self):
+        """대량의 MP를 소모하여 모든 동료의 순응도를 최대치로, 저항도를 최저치로 만듭니다."""
+        if self.mp < 50:
+            print("MP가 부족합니다!")
+            return
+            
+        self.mp -= 50
+        for ally in self.party.values():
+            ally.resistance = 0
+            ally.compliance = 100
+            print(f"{ally.name}의 저항도/순응도가 강제 조정되었습니다. (저항도: 0, 순응도: 100)")
+            
+    def toggle_passive_control(self):
+        """자동 제어 기능을 켜고 끕니다."""
+        self.passive_control_enabled = not self.passive_control_enabled
+        state = "활성화" if self.passive_control_enabled else "비활성화"
+        print(f"자동 제어가 {state}되었습니다.")
         
     def see_focus_tree(self):
         print(self.focus_tree)
