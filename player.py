@@ -23,6 +23,8 @@ class Player(Entity):
         
         self.completed_focuses:list = []
         self.party:dict = {}
+        # TODO:마력 기능 구현
+        self.mp:int = 0
         
     def see_focus_tree(self):
         print(self.focus_tree)

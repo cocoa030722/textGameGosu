@@ -39,6 +39,7 @@ class Game:
         print("게임 시작!")
         
         while self.player.health > 0:#게임 루프를 계속할 조건
+            print("헌재 턴:", self.turn)
             action = input("1.정보 2.탐험 3.종료 4.중점 5.인벤토리 6.파티").split(" ")
             
             if action[0] == "1":
@@ -55,4 +56,6 @@ class Game:
                 self.commands["party"].execute(self, self.dungeon, self.player)
             else:
                 print("정의되지 않은 커맨드")
+            #한 턴이 지남
+            self.turn += 1
         print("Game Over.")
