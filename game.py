@@ -56,6 +56,22 @@ class Game:
                 self.commands["party"].execute(self, self.dungeon, self.player)
             else:
                 print("정의되지 않은 커맨드")
-            #한 턴이 지남
+            
+            # 턴 종료 처리
             self.turn += 1
+            self.process_post_turn()
+            # 다음 턴 시작 처리 
+            self.process_pre_turn()
+            
+    def process_pre_turn(self):
+        """턴 시작 전 처리"""
+        self.player.pre_turn()
+        for ally in self.player.party.values():
+            ally.pre_turn()
+            
+    def process_post_turn(self):
+        """턴 종료 후 처리"""
+        self.player.post_turn()
+        for ally in self.player.party.values():
+            ally.post_turn()
         print("Game Over.")
