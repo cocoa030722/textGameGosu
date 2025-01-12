@@ -28,10 +28,14 @@ class Item():
             player.attack_power += self.attack_bonus
             print(f"{self.name}을(를) 장착하여 공격력이 {self.attack_bonus} 증가했습니다!")
             
-        elif "reduce_resistance" in self.__dict__:
+        elif self.type == "party":
             for ally in player.party.values():
                 ally.resistance -= self.reduce_resistance
             print(f"{self.name}을(를) 사용하여 파티원들의 저항이 {self.reduce_resistance} 감소했습니다!")
 
         else:
             print(f"{self.name}은(는) 특별한 효과가 없습니다.")
+
+"""
+elif "reduce_resistance" in self.__dict__:
+"""

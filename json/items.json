@@ -19,9 +19,9 @@
         "attack_bonus": 10
     },
     "beer": {
-        "type": "other",
+        "type": "party",
         "name": "맥주",
-        "description": "시원원한 맥주ㅅ",
+        "description": "시원한 맥주",
         "reduce_resistance": 10
     }
 }

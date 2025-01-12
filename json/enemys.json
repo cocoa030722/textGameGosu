@@ -1,9 +1,34 @@
 {
     "goblin": {
-        "name": "goblin",
+        "name": "고블린",
         "health": 30,
         "attack_power": 10,
         "defense_power": 0,
+        "speed": 50,
+        "behavior":["common_attack"]
+    },
+    "mouse": {
+        "name": "쥐",
+        "health": 10,
+        "attack_power": 5,
+        "defense_power": 0,
+        "speed": 70,
+        "behavior":["common_attack"]
+    },
+    "fire_spirit": {
+        "name": "불 정령",
+        "health": 30,
+        "attack_power": 5,
+        "defense_power": 0,
+        "speed": 70,
+        "behavior":["common_attack"]
+    },
+    "ice_spirit": {
+        "name": "얼음 정령",
+        "health": 10,
+        "attack_power": 5,
+        "defense_power": 0,
+        "speed": 70,
         "behavior":["common_attack"]
     }
 }

@@ -23,6 +23,8 @@ class Game:
         self.item_list:dict = utils.load_json("json/items.json")
         self.commands:dict = CommandFactory.create_commands()
         self.dungeon:Dungeon = Dungeon()
+        #TODO:턴 개념 구현
+        self.turn:int = 0
         
     def run(self):
         """

@@ -1,5 +1,7 @@
 from entity import Entity
 from behavior.map import behavior_map
+from status import Status
+
 class Enemy(Entity):
     """
     게임 내 모든 적의 원형이 되는 클래스입니다.
@@ -25,7 +27,7 @@ class Enemy(Entity):
             # TODO:특수 케이스의 보편화
             if "target" in kwargs:
                 kwargs["target"].take_damage(self.attack_power)
-                if "status" in result_dict:
+                if result_dict.status != Status.NORMAL:
                     kwargs["target"].status=result_dict["status"]
 
             return result_dict["result"]
