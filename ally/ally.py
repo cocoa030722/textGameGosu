@@ -43,5 +43,12 @@ class Ally(Entity):
         for line in self.script[situation]:
             print(line)
             time.sleep(1)
-
-    
+            
+    def pre_turn(self):
+        super().pre_turn()
+        
+        
+    def post_turn(self):
+        super().post_turn()
+        self.resistance+=3
+        self.compliance-=3

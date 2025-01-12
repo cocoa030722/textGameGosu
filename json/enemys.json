@@ -5,6 +5,7 @@
         "attack_power": 10,
         "defense_power": 0,
         "speed": 50,
+        "exp":100,
         "behavior":["common_attack"]
     },
     "mouse": {
@@ -13,22 +14,7 @@
         "attack_power": 5,
         "defense_power": 0,
         "speed": 70,
-        "behavior":["common_attack"]
-    },
-    "fire_spirit": {
-        "name": "불 정령",
-        "health": 30,
-        "attack_power": 5,
-        "defense_power": 0,
-        "speed": 70,
-        "behavior":["common_attack"]
-    },
-    "ice_spirit": {
-        "name": "얼음 정령",
-        "health": 10,
-        "attack_power": 5,
-        "defense_power": 0,
-        "speed": 70,
+        "exp":200,
         "behavior":["common_attack"]
     }
 }

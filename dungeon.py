@@ -74,7 +74,8 @@ class Dungeon():
             attack_power=data["attack_power"],
             defense_power=data["defense_power"],
             script=data["script"],
-            behavior_list=data["behavior"]
+            behavior_list=data["behavior"],
+            exp=data["exp"]
         )
         
     
@@ -84,7 +85,8 @@ class Dungeon():
                 health=data["health"],
                 attack_power=data["attack_power"],
                 defense_power=data["defense_power"],
-            behavior_list=data["behavior"]
+            behavior_list=data["behavior"],
+            exp=data["exp"]
         )
 
     def make_ally(self, data):

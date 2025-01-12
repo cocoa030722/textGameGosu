@@ -26,7 +26,7 @@ class Player(Entity):
         self.mp:int = 100
         self.max_mp:int = 100
         self.passive_control_enabled:bool = False
-        
+        self.exp:int = 0
     def passive_magic_control(self):
         """MP를 소량 소모하여 자동으로 동료들의 저항도를 감소시키고 순응도를 증가시킵니다."""
         if self.mp < 5 or not self.passive_control_enabled:
@@ -151,5 +151,9 @@ class Player(Entity):
             
     def call_party_member(self, ally_name) -> Ally:
         return self.party[ally_name]
-
+        
+    def pre_turn(self):
+        super().pre_turn()
+        if  self.passive_control_enabled:
+            self.passive_magic_control()
     

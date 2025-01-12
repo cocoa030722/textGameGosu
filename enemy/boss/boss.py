@@ -7,8 +7,8 @@ from entity import Entity
 import time
 
 class Boss(Enemy):
-    def __init__(self, name:str, health:int, attack_power:int, defense_power:int, behavior_list:list, script:dict):
-        super().__init__(name, health, attack_power, defense_power, behavior_list)
+    def __init__(self, name:str, health:int, attack_power:int, defense_power:int, behavior_list:list, script:dict, exp:int):
+        super().__init__(name, health, attack_power, defense_power, behavior_list, exp)
         self.script:dict = script
 
     def attack(self, target:Entity):

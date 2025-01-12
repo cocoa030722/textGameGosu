@@ -12,6 +12,8 @@ class Entity:
         self.attack_power:int = attack_power
         self.defense_power:int = defense_power
         self.status:Status = Status.NORMAL
+        self.mp:int = 100
+        self.max_mp:int = 100
         # TODO:미래에 speed에 따른 우선 행동 구현
         self.speed = 100
         self.attack_probability = 100
@@ -47,10 +49,8 @@ class Entity:
         else:
             self.attack_probability = 100
             
-        if hasattr(self, 'mp') and hasattr(self, 'max_mp'):
-            self.mp = min(self.max_mp, self.mp + 10)
-            if hasattr(self, 'passive_control_enabled') and self.passive_control_enabled:
-                self.passive_magic_control()
+        self.mp = min(self.max_mp, self.mp + 10)
+        
         
     def post_turn(self):
         if self.status == Status.POISON:

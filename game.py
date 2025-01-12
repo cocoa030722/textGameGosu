@@ -39,6 +39,8 @@ class Game:
         print("게임 시작!")
         
         while self.player.health > 0:#게임 루프를 계속할 조건
+            # 턴 시작 처리 
+            self.process_pre_turn()
             print("헌재 턴:", self.turn)
             action = input("1.정보 2.탐험 3.종료 4.중점 5.인벤토리 6.파티").split(" ")
             
@@ -60,8 +62,7 @@ class Game:
             # 턴 종료 처리
             self.turn += 1
             self.process_post_turn()
-            # 다음 턴 시작 처리 
-            self.process_pre_turn()
+        print("Game Over.")
             
     def process_pre_turn(self):
         """턴 시작 전 처리"""
@@ -74,4 +75,4 @@ class Game:
         self.player.post_turn()
         for ally in self.player.party.values():
             ally.post_turn()
-        print("Game Over.")
+        

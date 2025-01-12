@@ -91,6 +91,7 @@ class ExploreFightCommand(BattleBase):
                 self._pre_battle_phase(fighter, enemy)
                 self._battle_phase(fighter, enemy)
                 self._post_battle_phase(fighter, enemy)
+                game.turn += 1
                 
                 if self._check_battle_result(player, enemy, fighter, dungeon):
                     break
