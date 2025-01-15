@@ -55,10 +55,6 @@ class Dungeon():
         event = Event(event_group, event_name)
         return event
         
-    def is_here_boss_floor(self) -> bool:
-        return "boss" in self.dungeon_data[str(self.current_floor)]
-
-    
     def next_floor(self) -> None:
         """
         현 층이 최대 층이 아닐 시 한 층을 올라갑니다.
@@ -67,7 +63,7 @@ class Dungeon():
         if self.current_floor >=  self.MAX_FLOOR:
             self.current_floor=self.MAX_FLOOR
 
-    def make_boss(self, data):
+    def make_boss(self, data) -> Boss:
         return Boss(
             name=data["name"],
             health=data["health"],
@@ -78,23 +74,22 @@ class Dungeon():
             exp=data["exp"]
         )
         
-    
-    def make_enemy(self, data):
+    def make_enemy(self, data) -> Enemy:
         return Enemy(
-                name=data["name"],
-                health=data["health"],
-                attack_power=data["attack_power"],
-                defense_power=data["defense_power"],
+            name=data["name"],
+            health=data["health"],
+            attack_power=data["attack_power"],
+            defense_power=data["defense_power"],
             behavior_list=data["behavior"],
             exp=data["exp"]
         )
 
-    def make_ally(self, data):
+    def make_ally(self, data) -> Ally:
         return Ally(
-                name=data["name"],
-                health=data["health"],
-                attack_power=data["attack_power"],
-                defense_power=data["defense_power"],
+            name=data["name"],
+            health=data["health"],
+            attack_power=data["attack_power"],
+            defense_power=data["defense_power"],
             resistance=data["resistance"],
             compliance=data["compliance"],
             script=data["script"]
@@ -103,7 +98,7 @@ class Dungeon():
 class Event:
     """
     게임 내 이벤트 정보를 담은 클래스입니다.
-    현재는 문자열열만을 포함하지만, 더 확장할 수도 있습니다.
+    현재는 문자열만을 포함하지만, 더 확장할 수도 있습니다.
     """
     def __init__(self, group:str, name:str):
         self.group:str = group

@@ -1,6 +1,7 @@
 from command.command import Command
 from rich.prompt import Prompt
 
+"""모든 포커스 드리 관련 기능은 후순위 구현"""
 class FocusCommand(Command):
     def __init__(self) -> None:
         self.sub_commands = {
@@ -23,5 +24,6 @@ class FocusCheckCommand(Command):
 
 class FocusPickCommand(Command):
     def execute(self, game, dungeon, player, *args, **kwargs):
-        focus_node = Prompt.ask("[bold cyan]" + player.get_available_focuses() + "[/bold cyan]")
+        focus_node = Prompt.ask("[bold cyan]" + str(player.get_available_focuses()) + "[/bold cyan]")
         print(player.focus_tree["focus_tree"][focus_node])
+        

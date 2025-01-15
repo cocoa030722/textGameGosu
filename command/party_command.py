@@ -29,8 +29,8 @@ class PartyControlCommand(Command):
         
         if sub_command == "1":
             ally_name = Prompt.ask("[bold cyan]동료 이름을 입력하세요[/bold cyan]")
-            player.call_party_member(ally_name).reduce_resistance()
-            player.call_party_member(ally_name).increase_compliance()
+            player.call_party_member(ally_name).reduce_resistance(10)
+            player.call_party_member(ally_name).increase_compliance(10)
         elif sub_command == "2":
             player.toggle_passive_control()
             print(f"현재 MP: {player.mp}")

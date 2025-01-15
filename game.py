@@ -3,7 +3,7 @@
 이상적으로는, 유저 입력은 숫자 패드만으로도 가능하도록 합니다.
 이를 위해 유저 입력은 하나의 숫자(반드시 한 자리 숫자일 필요는 없음)를 문자열로서 대조하는 방식으로 처리합니다.
 """
-from player import Player
+from player.player import Player
 from factory.command_factory import CommandFactory
 from dungeon import Dungeon
 import utils
@@ -16,7 +16,14 @@ class Game:
         """
         게임의 하위 객체들을 생성합니다.
         """
-        self.player:Player = Player(name="Hero", health=100, attack_power=50, defense_power=50)
+        self.player:Player = Player(name="Hero",
+                                    health=100,
+                                    attack_power=50,
+                                    defense_power=50,
+                                   exp=0,
+                                   mp=100,
+                                   max_mp=100,
+                                   speed=100)
         self.enemy:dict = utils.load_json("json/enemys.json")
         self.boss:dict = utils.read_all_json("json/boss")
         self.ally:dict = utils.read_all_json("json/ally")
@@ -38,7 +45,7 @@ class Game:
         """
         print("게임 시작!")
         
-        while self.player.health > 0:#게임 루프를 계속할 조건
+        while self.player.stats.health > 0:#게임 루프를 계속할 조건
             # 턴 시작 처리 
             self.process_pre_turn()
             print("헌재 턴:", self.turn)
@@ -52,6 +59,8 @@ class Game:
                 self.commands["quit"].execute(self, self.dungeon, self.player)
             elif action[0] == "4":
                 self.commands["focus"].execute(self, self.dungeon, self.player)
+                print("TODO:후순위 구현")
+                
             elif action[0] == "5":
                 self.commands["inven"].execute(self, self.dungeon, self.player)
             elif action[0] == "6":
@@ -67,12 +76,12 @@ class Game:
     def process_pre_turn(self):
         """턴 시작 전 처리"""
         self.player.pre_turn()
-        for ally in self.player.party.values():
+        for ally in self.player.get_party().values():
             ally.pre_turn()
             
     def process_post_turn(self):
         """턴 종료 후 처리"""
         self.player.post_turn()
-        for ally in self.player.party.values():
+        for ally in self.player.get_party().values():
             ally.post_turn()
         

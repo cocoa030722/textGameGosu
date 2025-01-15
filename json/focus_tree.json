@@ -55,7 +55,7 @@
         "money": 500
       }
     },
-        {
+    {
       "id": "direct_rule",
       "name": "직접적 지배",
       "description": "저항도를 0, 순응도를 100으로 고정합니다.",

@@ -3,49 +3,69 @@
 """
 from ally.ally import Ally
 from entity import Entity
-from rich.tree import Tree
-from rich.console import Console
+from player.inven import Inventory
+from player.party import Party
 
 import utils
-from item import Item
+from rich.console import Console
+from rich.tree import Tree
 
 class Player(Entity):
     """
     플레이어가 가지는 정보와 가능한 행동들을 담은 클래스입니다.
     """
-    def __init__(self, name:str, health:int, attack_power:int, defense_power:int):
-        super().__init__(name, health, attack_power, defense_power)
-        self.inventory:list = []
-        self.max_inventory:int = 10
+    def __init__(self, name:str, health:int, attack_power:int, defense_power:int, exp:int, mp:int, max_mp:int, speed:int):
+        super().__init__(name, health, attack_power, defense_power, exp, mp, max_mp, speed)
+        self._inven:Inventory = Inventory()
+        self._party:Party = Party()
+        self.skill = [] # Behavior의 키 문자열을 저장함
+        self.passive_control_enabled:bool = False
         
+        self.level = 1
+        self.level_data = utils.load_json("json/level_data.json")
+        self.focus_points = 0
         self.focus_tree:dict = utils.load_json("json/focus_tree.json")
         self.focus_dict:dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
         
         self.completed_focuses:list = []
-        self.party:dict = {}
-        self.mp:int = 100
-        self.max_mp:int = 100
-        self.passive_control_enabled:bool = False
-        self.exp:int = 0
+    def get_exp_to_level_up(self):
+        return self.level_data.get(str(self.level), float('inf'))
+
+    def level_up(self):
+        self.level += 1
+        self.stats.attack_power += 5
+        self.stats.defense_power += 3
+        self.focus_points += 1
+        self.heal(20)
+        print(f"{self.name} 레벨 업! 레벨: {self.level}")
+        print(f"공격력: {self.stats.attack_power}, 방어력: {self.stats.defense_power}, 체력: {self.stats.health}, 스킬 포인트: {self.focus_points}")
+
+    def gain_exp(self, amount):
+        self.gain_exp(amount)
+        print(f"{self.name}는 {amount} 경험치를 얻었습니다! (현재 경험치: {self.stats.exp}/{self.get_exp_to_level_up()})")
+        while self.stats.exp >= self.get_exp_to_level_up():
+            self.stats.exp -= self.get_exp_to_level_up()
+            self.level_up()
+            
     def passive_magic_control(self):
         """MP를 소량 소모하여 자동으로 동료들의 저항도를 감소시키고 순응도를 증가시킵니다."""
-        if self.mp < 5 or not self.passive_control_enabled:
+        if self.stats.mp < 5 or not self.passive_control_enabled:
             return
             
-        self.mp -= 5
-        for ally in self.party.values():
+        self.stats.mp -= 5
+        for ally in self._party.get_party().values():
             ally.resistance = max(0, ally.resistance - 5)
             ally.compliance = min(100, ally.compliance + 5)
             print(f"{ally.name}의 저항도/순응도가 변화했습니다. (저항도: {ally.resistance}, 순응도: {ally.compliance})")
             
     def martial_law(self):
         """대량의 MP를 소모하여 모든 동료의 순응도를 최대치로, 저항도를 최저치로 만듭니다."""
-        if self.mp < 50:
+        if self.stats.mp < 50:
             print("MP가 부족합니다!")
             return
             
-        self.mp -= 50
-        for ally in self.party.values():
+        self.stats.mp -= 50
+        for ally in self._party.get_party().values():
             ally.martial_law()
             print(f"{ally.name}의 저항도/순응도가 강제 조정되었습니다. (저항도: 0, 순응도: 100)")
             
@@ -54,18 +74,44 @@ class Player(Entity):
         self.passive_control_enabled = not self.passive_control_enabled
         state = "활성화" if self.passive_control_enabled else "비활성화"
         print(f"자동 제어가 {state}되었습니다.")
+
+    """
+    인벤토리, 파티 객체는 private->외부 접근 자제
+    인벤토리, 파티를 다룰 때는 플레이어의 wrapper 메소드를 통한다
+    """
+    # inven wrapper 시작
+    def add_item(self, item_data:dict):
+        self._inven.add_item(item_data)
         
-    def see_focus_tree(self):
-        print(self.focus_tree)
+    def use_item(self, index:int):
+        self._inven.use_item(index)
+            
+    def show_inventory(self):
+        self._inven.show_inventory()
+    # inven wrapper 끝
+
+    # party의 wrapper 시작
+    def get_party(self)->dict:
+        return self._party.get_party()
         
+    def join_party(self, ally:Ally):
+        self._party.join_party(ally)
+
+    def show_party(self):
+        self._party.show_party()
+            
+    def call_party_member(self, ally_name) -> Ally:
+        return self._party.call_party_member(ally_name)
+    # party의 wrapper 끝
+
     def check_prerequisites(self, completed_focuses):
-        """포커스의 선행 조건 확인"""
+        #포커스의 선행 조건 확인
         return all(prerequisite in completed_focuses for prerequisite in self.focus_tree["prerequisites"])
 
     def get_available_focuses(self):
-        """
-        Returns list of available focus names that can be chosen
-        """
+        
+        #Returns list of available focus names that can be chosen
+        
         available = []
         for focus in self.focus_tree["focus_tree"]:
                 if focus["id"] not in self.completed_focuses and all(prereq in self.completed_focuses for prereq in focus["prerequisites"]):
@@ -74,9 +120,9 @@ class Player(Entity):
         return available
 
     def render_focus_tree(self, focus_tree, completed_focuses):
-        """
-        포커스 트리를 Rich Tree로 렌더링
-        """
+        
+        #포커스 트리를 Rich Tree로 렌더링
+        
         tree = Tree("Focus Tree")
         # 트리 렌더링
         def render_tree(nodes, root_id):
@@ -97,40 +143,14 @@ class Player(Entity):
         console = Console()
         tree = render_tree(self.focus_dict, "begin_the_game")
         console.print(tree)
-        
 
-    def add_item(self, item_data:dict):
-        if len(self.inventory) < self.max_inventory:
-            #FIXME:일단 아이템의 보편성 구현을 우선하고, 사용 기능을 일시적으로 삭제함
-            item = Item(
-                item_data["name"],
-                item_data["description"],
-                **item_data
-            )
-            self.inventory.append(item)
-            print(f"{item.name}  발견! 인벤토리에 추가했다.")
-        else:
-            print("인벤토리 가득 참!")
-        
-    def use_item(self, index:int):
-        if 0 <= index < len(self.inventory):
-            item = self.inventory.pop(index)
-            item.use(self)
-        else:
-            print("Invalid item index!")
-            
-    def show_inventory(self):
-        if not self.inventory:
-            print("인벤토리에는 아무것도 없다!")
-            return
-        print("\n=== 인벤토리 ===")
-        for i, item in enumerate(self.inventory):
-            print(f"{i}. {item.name}: {item.description}")
-            
+    def see_focus_tree(self):
+        print(self.focus_tree)
+
     def complete_focus(self, focus:dict):
-        """
-        포커스를 완료하고 효과 적용
-        """
+        
+        #포커스를 완료하고 효과 적용
+        
         print(f"\n=== Focus Completed: {focus['name']} ===")
         print(focus["description"])
         
@@ -140,20 +160,12 @@ class Player(Entity):
         # 포커스를 완료 리스트에 추가
         self.completed_focuses.append(focus["id"])
         print("Focus effect applied!")
-        
-    def join_party(self, ally:Ally):
-        self.party[ally.name] = ally
 
-    def show_party(self):
-        print("\n=== 파티 멤버 ===")
-        for i, ally in enumerate(self.party):
-            print(f"{i}. {self.party[ally].name}/저항도:{self.party[ally].resistance}, 순응도:{self.party[ally].compliance}")
-            
-    def call_party_member(self, ally_name) -> Ally:
-        return self.party[ally_name]
-        
+
+
+    
     def pre_turn(self):
         super().pre_turn()
-        if  self.passive_control_enabled:
+        if self.passive_control_enabled:
             self.passive_magic_control()
     

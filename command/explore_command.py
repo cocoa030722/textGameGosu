@@ -52,28 +52,28 @@ class BattleBase(Command):
         fighter.post_turn()
 
     def _select_fighter(self, player):
-        if not player.party:
+        if not player.get_party():
             return player
 
         player.show_party()
         choice = Prompt.ask("[bold cyan]누구를 보낼까요?[/bold cyan] (0: 직접 싸우기, 1~N: 파티 멤버)")
-        if choice.isdigit() and int(choice) > 0 and int(choice) <= len(player.party):
-            fighter = list(player.party.values())[int(choice)-1]
+        if choice.isdigit() and int(choice) > 0 and int(choice) <= len(player.get_party()):
+            fighter = list(player.get_party().values())[int(choice)-1]
             print(f"{fighter.name}이(가) 싸움에 나섰다!")
             return fighter
         return player
 
     def _check_battle_result(self, player, enemy, fighter, dungeon):
-        if enemy.health <= 0:
+        if enemy.get_health() <= 0:
             print("플레이어 승리!")
             dungeon.show_cur_floor_info()
             return True
-        elif player.health <= 0:
+        elif player.get_health() <= 0:
             print("플레이어 패배")
             exit()
-        elif fighter != player and fighter.health <= 0:
+        elif fighter != player and fighter.get_health() <= 0:
             print(f"{fighter.name}이(가) 쓰러졌다!")
-            del player.party[fighter.name]
+            del player.get_party()[fighter.name]
             return True
         return False
 

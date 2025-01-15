@@ -6,31 +6,10 @@ class Enemy(Entity):
     게임의 로직은 json 정보를 기반으로 이 클래스의 인스턴스를 직접 생성합니다.
     """
     def __init__(self, name:str, health:int, attack_power:int, defense_power:int, behavior_list:list, exp:int):
-        super().__init__(name, health, attack_power, defense_power)
-        self.behaviors:dict = {}
-        self.stats.exp = exp
-        for behavior in behavior_list:
-            self.add_behavior(behavior, behavior_map[behavior])
+        super().__init__(name, health, attack_power, defense_power, exp, mp=100, max_mp=100, speed=20)
+        
             
     def attack(self, target:Entity):
         self.perform_behavior("common_attack", target=target)
 
-    def add_behavior(self, name, behavior):
-        self.behaviors[name] = behavior
 
-    def perform_behavior(self, name, **kwargs):
-        if name in self.behaviors:
-            result_dict = self.behaviors[name].execute(self, kwargs["target"])
-            print(result_dict)
-            
-            # TODO:특수 케이스의 보편화
-            if "target" in kwargs:
-                kwargs["target"].take_damage(self.attack_power)
-                if "status" in result_dict:
-                    kwargs["target"].status=result_dict["status"]
-
-            return result_dict["result"]
-        else:
-            message = f"{self.name} doesn't know how to perform {name}."
-            print(message)
-            return message

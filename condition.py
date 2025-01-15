@@ -1,6 +1,6 @@
 from enum import Enum, auto
 
-class Status(Enum):
+class Condition(Enum):
     NORMAL = auto()
     POISON = auto()
     PARALYSIS = auto()

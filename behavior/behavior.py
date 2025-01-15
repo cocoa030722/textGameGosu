@@ -1,7 +1,6 @@
 
 from abc import ABC, abstractmethod
 from entity import Entity
-from status import Status
 
 class Behavior(ABC):
     @abstractmethod

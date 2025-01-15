@@ -4,11 +4,11 @@ DTO로 할지 어쩔지 감이 안잡힘
 """
 
 from .behavior import Behavior, SupportBehavior #Added SupportBehavior import
-from status import Status
+from condition import Condition
 from entity import Entity #Added Entity import
 
 class HealingSupport(SupportBehavior):
-    def execute(self, supporter: Entity, allies: list[Entity], **kwargs) -> dict:
+    def execute(self, supporter: "Ally", allies: list[Entity], **kwargs) -> dict:
         heal_amount = 20
         if hasattr(supporter, 'compliance') and supporter.compliance > 70:
             heal_amount += 10
@@ -19,7 +19,7 @@ class HealingSupport(SupportBehavior):
         }
 
 class DefenseBoost(SupportBehavior):
-    def execute(self, supporter: Entity, allies: list[Entity], **kwargs) -> dict:
+    def execute(self, supporter: "Ally", allies: list[Entity], **kwargs) -> dict:
         defense_boost = 5
         if hasattr(supporter, 'compliance') and supporter.compliance > 70:
             defense_boost += 5
@@ -30,8 +30,8 @@ class DefenseBoost(SupportBehavior):
         }
 
 class RemovePoison(SupportBehavior):
-    def execute(self, supporter: Entity, allies: list[Entity], **kwargs) -> dict:
+    def execute(self, supporter: "Ally", allies: list[Entity], **kwargs) -> dict:
         return {
             "result": f"{supporter.name}이(가) 독을 치료해줍니다!",
-            "status": Status.NORMAL
+            "status": Condition.NORMAL
         }

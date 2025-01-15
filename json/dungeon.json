@@ -9,7 +9,7 @@
         "boss":["karsen"]
     },
     "3":{
-        "enemy":[],
+        "enemy":["mouse"],
         "item":[]
     },
     "4":{

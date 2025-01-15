@@ -6,7 +6,7 @@ import time
 
 class Ally(Entity):
     def __init__(self, name, health, attack_power, defense_power, resistance:int, compliance:int, script:dict):
-        super().__init__(name, health, attack_power, defense_power)
+        super().__init__(name, health, attack_power, defense_power, exp=0, mp=100, max_mp=100, speed=100)
         self.resistance:int = resistance  # 저항도 (높을수록 반항적)
         self.compliance:int = compliance  # 순응도 (높을수록 협조적)
         self.script:dict = script

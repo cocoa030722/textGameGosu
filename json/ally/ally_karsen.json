@@ -5,6 +5,7 @@
     "defense_power": 0,
     "resistance": 50, 
     "compliance": 10,
+    "exp": 0,
     "behavior":["common_attack"],
     "script": {
         "reduce_resistance":["저항 감소", "대사 2"],

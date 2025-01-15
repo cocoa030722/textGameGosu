@@ -13,7 +13,7 @@ class Boss(Enemy):
 
     def attack(self, target:Entity):
         print(f"{self.name} attacks {target.name}!")
-        target.take_damage(self.attack_power)
+        target.take_damage(self.get_attack_power())
         
     def after_fight(self):
         for line in self.script["after_fight"]:
