@@ -59,10 +59,8 @@ class Entity:
 
     def show_info(self) -> None:
         print(f"이름:{self.name}")
-        print(f"hp:{self.stats.health}")
-        print(f"공격력:{self.stats.attack_power}")
-        print(f"방어력:{self.stats.defense_power}")
-        print(f"상태:{self.condition}")
+        for field, value in self.stats.__dict__.items():
+            print(f"{field}: {value}")
 
     def add_behavior(self, name, behavior):
         self.behaviors[name] = behavior

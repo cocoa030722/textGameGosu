@@ -24,6 +24,10 @@ class FocusCheckCommand(Command):
 
 class FocusPickCommand(Command):
     def execute(self, game, dungeon, player, *args, **kwargs):
-        focus_node = Prompt.ask("[bold cyan]" + str(player.get_available_focuses()) + "[/bold cyan]")
-        print(player.focus_tree["focus_tree"][focus_node])
+        available_list = player.get_available_focuses()
+        focus_node = Prompt.ask("[bold cyan]원하는 중점의 인덱스를 선택하세요(0부터 시작)\n" + str(player.get_available_focuses()) + "[/bold cyan]")
+        try: # 범위를 벗어난 입력 대응은 try-except로 처리
+            player.complete_focus(available_list[int(focus_node)])
+        except IndexError:
+            print("유효하지 않은 입력입니다. 다시 시도하세요.")
         

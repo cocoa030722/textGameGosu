@@ -1,14 +1,22 @@
 {
   "focus_tree": [
-        {
+    {
       "id": "begin_the_game",
       "name": "게임 시작",
       "description": "던전 공략을 시작합니다.",
       "prerequisites": [],
-      "children": ["preparing_for_modern_warfare", "tradition_and_honor"],
+      "children": ["preparing_for_modern_warfare", "tradition_and_honor", "direct_rule"],
       "mutual_exclusion": [],
       "effect": {
-        "money": 500
+        "add_behavior":{
+          "behavior": "common_attack"
+        },
+        "modify_field": {
+          "attack_power": 500
+        },
+        "set_field": {
+          "defense_power": 114514
+        }
       }
     },
     {
@@ -19,7 +27,9 @@
       "children": ["inrush_tactics", "preparation_for_chemical_warfare"],
       "mutual_exclusion": ["tradition_and_honor"],
       "effect": {
-        "money": 500
+        "modify_field": {
+          "attack_power": 500
+        }
       }
     },
     {
@@ -30,7 +40,9 @@
       "children": [],
       "mutual_exclusion": [],
       "effect": {
-        "infantry": 20
+        "modify_field": {
+          "attack_power": 500
+        }
       }
     },
     {
@@ -41,7 +53,9 @@
       "children": [],
       "mutual_exclusion": [],
       "effect": {
-        "diplomacy": 10
+        "modify_field": {
+          "attack_power": 500
+        }
       }
     },
     {
@@ -52,7 +66,9 @@
       "children": [],
       "mutual_exclusion": ["preparing_for_modern_warfare"],
       "effect": {
-        "money": 500
+        "modify_field": {
+          "attack_power": 500
+        }
       }
     },
     {
@@ -63,7 +79,9 @@
       "children": [],
       "mutual_exclusion": [],
       "effect": {
-        "money": 500
+        "modify_field": {
+          "attack_power": 500
+        }
       }
     }
   ]

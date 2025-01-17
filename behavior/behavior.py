@@ -1,6 +1,5 @@
 
 from abc import ABC, abstractmethod
-from entity import Entity
 
 class Behavior(ABC):
     @abstractmethod
@@ -9,10 +8,10 @@ class Behavior(ABC):
 
 class AttackBehavior(Behavior):
     @abstractmethod
-    def execute(self, attacker: Entity, target: Entity, **kwargs) -> dict:
+    def execute(self, attacker: "Entity", target: "Entity", **kwargs) -> dict:
         pass
 
 class SupportBehavior(Behavior):
     @abstractmethod
-    def execute(self, supporter: Entity, allies: list[Entity], **kwargs) -> dict:
+    def execute(self, supporter: "Entity", allies: list["Entity"], **kwargs) -> dict:
         pass

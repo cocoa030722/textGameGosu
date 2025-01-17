@@ -3,6 +3,7 @@
 """
 import json
 import os
+import inspect
 
 # JSON 파일 로드
 def load_json(file_path:str) -> dict:
@@ -34,3 +35,12 @@ def read_all_json(directory:str) -> dict:
         print(f"An error occurred: {e}")
     
     return json_data
+    
+
+
+def debug_print(message):
+    frame = inspect.currentframe().f_back  # 호출한 함수의 프레임
+    file_name = frame.f_code.co_filename
+    func_name = frame.f_code.co_name
+    line_no = frame.f_lineno
+    print(f"[{file_name}:{func_name}:{line_no}] {message}")

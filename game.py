@@ -3,6 +3,7 @@
 이상적으로는, 유저 입력은 숫자 패드만으로도 가능하도록 합니다.
 이를 위해 유저 입력은 하나의 숫자(반드시 한 자리 숫자일 필요는 없음)를 문자열로서 대조하는 방식으로 처리합니다.
 """
+from behavior.behavior import Behavior
 from player.player import Player
 from factory.command_factory import CommandFactory
 from dungeon import Dungeon
@@ -23,7 +24,8 @@ class Game:
                                    exp=0,
                                    mp=100,
                                    max_mp=100,
-                                   speed=100)
+                                   speed=100,
+                                   behavior_list=[])
         self.enemy:dict = utils.load_json("json/enemys.json")
         self.boss:dict = utils.read_all_json("json/boss")
         self.ally:dict = utils.read_all_json("json/ally")
@@ -59,8 +61,6 @@ class Game:
                 self.commands["quit"].execute(self, self.dungeon, self.player)
             elif action[0] == "4":
                 self.commands["focus"].execute(self, self.dungeon, self.player)
-                print("TODO:후순위 구현")
-                
             elif action[0] == "5":
                 self.commands["inven"].execute(self, self.dungeon, self.player)
             elif action[0] == "6":

@@ -14,6 +14,7 @@ class Command:
 class InfoCommand(Command):
     def execute(self, game, dungeon, player):
         dungeon.show_cur_floor_info()
+        player.show_info()
         
 class QuitCommand(Command):
     def execute(self, game, dungeon, player):

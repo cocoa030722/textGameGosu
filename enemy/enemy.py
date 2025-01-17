@@ -6,7 +6,7 @@ class Enemy(Entity):
     게임의 로직은 json 정보를 기반으로 이 클래스의 인스턴스를 직접 생성합니다.
     """
     def __init__(self, name:str, health:int, attack_power:int, defense_power:int, behavior_list:list, exp:int):
-        super().__init__(name, health, attack_power, defense_power, exp, mp=100, max_mp=100, speed=20)
+        super().__init__(name, health, attack_power, defense_power, exp, mp=100, max_mp=100, speed=20, behavior_list=behavior_list)
         
             
     def attack(self, target:Entity):

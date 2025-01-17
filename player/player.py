@@ -14,20 +14,19 @@ class Player(Entity):
     """
     플레이어가 가지는 정보와 가능한 행동들을 담은 클래스입니다.
     """
-    def __init__(self, name:str, health:int, attack_power:int, defense_power:int, exp:int, mp:int, max_mp:int, speed:int):
-        super().__init__(name, health, attack_power, defense_power, exp, mp, max_mp, speed)
+    def __init__(self, name:str, health:int, attack_power:int, defense_power:int, exp:int, mp:int, max_mp:int, speed:int, behavior_list:list):
+        super().__init__(name, health, attack_power, defense_power, exp, mp, max_mp, speed, behavior_list)
         self._inven:Inventory = Inventory()
         self._party:Party = Party()
-        self.skill = [] # Behavior의 키 문자열을 저장함
         self.passive_control_enabled:bool = False
         
         self.level = 1
         self.level_data = utils.load_json("json/level_data.json")
         self.focus_points = 0
-        self.focus_tree:dict = utils.load_json("json/focus_tree.json")
-        self.focus_dict:dict = {focus["id"]: focus for focus in self.focus_tree["focus_tree"]}
-        
+        __focus_tree:dict = utils.load_json("json/focus_tree.json")
+        self.focus_dict:dict = {focus["id"]: focus for focus in __focus_tree["focus_tree"]}
         self.completed_focuses:list = []
+        
     def get_exp_to_level_up(self):
         return self.level_data.get(str(self.level), float('inf'))
 
@@ -104,26 +103,24 @@ class Player(Entity):
         return self._party.call_party_member(ally_name)
     # party의 wrapper 끝
 
-    def check_prerequisites(self, completed_focuses):
+    def check_prerequisites(self, completed_focuses)->bool:
         #포커스의 선행 조건 확인
-        return all(prerequisite in completed_focuses for prerequisite in self.focus_tree["prerequisites"])
+        return all(prerequisite in completed_focuses for prerequisite in self.focus_dict["prerequisites"])
 
-    def get_available_focuses(self):
-        
+    def get_available_focuses(self)->list:
         #Returns list of available focus names that can be chosen
-        
         available = []
-        for focus in self.focus_tree["focus_tree"]:
-                if focus["id"] not in self.completed_focuses and all(prereq in self.completed_focuses for prereq in focus["prerequisites"]):
-                    available.append(focus["id"])
-        self.render_focus_tree(self.focus_tree, self.completed_focuses)
+        for focus_name, focus_data in self.focus_dict.items():
+            if focus_name not in self.completed_focuses and all(prereq in self.completed_focuses for prereq in focus_data["prerequisites"]):
+                available.append(focus_data["id"])
+        self.render_focus_tree(self.focus_dict, self.completed_focuses)
         return available
 
     def render_focus_tree(self, focus_tree, completed_focuses):
         
         #포커스 트리를 Rich Tree로 렌더링
-        
         tree = Tree("Focus Tree")
+        
         # 트리 렌더링
         def render_tree(nodes, root_id):
             def add_children(tree, node_id):
@@ -144,25 +141,30 @@ class Player(Entity):
         tree = render_tree(self.focus_dict, "begin_the_game")
         console.print(tree)
 
-    def see_focus_tree(self):
-        print(self.focus_tree)
+    def see_focus_dict(self):
+        print(self.focus_dict)
 
-    def complete_focus(self, focus:dict):
+    def complete_focus(self, focus_name:str):
         
         #포커스를 완료하고 효과 적용
-        
-        print(f"\n=== Focus Completed: {focus['name']} ===")
-        print(focus["description"])
-        
+        print(f"\n=== Focus Completed: {focus_name} ===")
+        print(self.focus_dict[focus_name]["description"])
+        utils.debug_print(self.focus_dict[focus_name])
+        utils.debug_print(self.focus_dict[focus_name]["effect"])
         # TODO:포커스 효과 적용
-        
+        for effect_name, effect_value in self.focus_dict[focus_name]["effect"].items():
+            if effect_name == "add_behavior":
+                self.behaviors[effect_name] = effect_value["behavior"]
+            elif effect_name == "modify_field":
+                for field, change in effect_value.items():
+                    setattr(self.stats, field, getattr(self.stats, field) + change)
+            elif effect_name == "set_field":
+                for field, value in effect_value.items():
+                    setattr(self.stats, field, value)
         
         # 포커스를 완료 리스트에 추가
-        self.completed_focuses.append(focus["id"])
+        self.completed_focuses.append(self.focus_dict[focus_name]["id"])
         print("Focus effect applied!")
-
-
-
     
     def pre_turn(self):
         super().pre_turn()
