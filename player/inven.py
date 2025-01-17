@@ -8,7 +8,7 @@ class Inventory():
     리스트를 중심으로 인벤토리의 기능을 하는 클래스입니다.
     """
     def __init__(self):
-        self.space = []
+        self.space:list = []
         self.max_inventory:int = 10
     
     def add_item(self, item_data:dict):

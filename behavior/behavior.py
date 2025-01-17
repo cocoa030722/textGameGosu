@@ -1,6 +1,11 @@
 
 from abc import ABC, abstractmethod
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:# 타입 검사 시에만 import
+    from entity import Entity
+    from ally import Ally
+
 class Behavior(ABC):
     @abstractmethod
     def execute(self, *args, **kwargs):
@@ -8,10 +13,10 @@ class Behavior(ABC):
 
 class AttackBehavior(Behavior):
     @abstractmethod
-    def execute(self, attacker: "Entity", target: "Entity", **kwargs) -> dict:
+    def execute(self, attacker: Entity, target: Entity, **kwargs) -> dict:
         pass
 
 class SupportBehavior(Behavior):
     @abstractmethod
-    def execute(self, supporter: "Entity", allies: list["Entity"], **kwargs) -> dict:
+    def execute(self, supporter: Ally, allies: list[Entity], **kwargs) -> dict:
         pass

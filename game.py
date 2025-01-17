@@ -54,19 +54,19 @@ class Game:
             action = input("1.정보 2.탐험 3.종료 4.중점 5.인벤토리 6.파티").split(" ")
             
             if action[0] == "1":
-                self.commands["info"].execute(self, self.dungeon, self.player)
+                self.commands["info"].execute(self, self.dungeon)
             elif action[0] == "2":
-                self.commands["explore"].execute(self, self.dungeon, self.player)
+                self.commands["explore"].execute(self, self.dungeon)
             elif action[0] == "3":
-                self.commands["quit"].execute(self, self.dungeon, self.player)
+                self.commands["quit"].execute(self, self.dungeon)
             elif action[0] == "4":
-                self.commands["focus"].execute(self, self.dungeon, self.player)
+                self.commands["focus"].execute(self, self.dungeon)
             elif action[0] == "5":
-                self.commands["inven"].execute(self, self.dungeon, self.player)
+                self.commands["inven"].execute(self, self.dungeon)
             elif action[0] == "6":
-                self.commands["party"].execute(self, self.dungeon, self.player)
+                self.commands["party"].execute(self, self.dungeon)
             else:
-                print("정의되지 않은 커맨드")
+                self.commands["failsafe"].execute(self, self.dungeon)
             
             # 턴 종료 처리
             self.turn += 1

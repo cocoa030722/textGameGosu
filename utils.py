@@ -10,7 +10,7 @@ def load_json(file_path:str) -> dict:
     """
     하나의 json을 딕셔너리로 반환합니다.
     """
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding='utf-8') as file:
         return json.load(file)
 
 def read_all_json(directory:str) -> dict:
@@ -35,12 +35,3 @@ def read_all_json(directory:str) -> dict:
         print(f"An error occurred: {e}")
     
     return json_data
-    
-
-
-def debug_print(message):
-    frame = inspect.currentframe().f_back  # 호출한 함수의 프레임
-    file_name = frame.f_code.co_filename
-    func_name = frame.f_code.co_name
-    line_no = frame.f_lineno
-    print(f"[{file_name}:{func_name}:{line_no}] {message}")

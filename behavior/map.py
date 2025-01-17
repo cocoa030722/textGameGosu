@@ -1,4 +1,4 @@
-from behavior.attack import *
+from behavior import *
 
 
 behavior_map = {

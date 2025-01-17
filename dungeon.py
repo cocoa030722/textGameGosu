@@ -92,7 +92,8 @@ class Dungeon():
             defense_power=data["defense_power"],
             resistance=data["resistance"],
             compliance=data["compliance"],
-            script=data["script"]
+            script=data["script"],
+            behavior_list=data["behavior"],
         )
         
 class Event:

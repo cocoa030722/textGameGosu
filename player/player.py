@@ -149,8 +149,6 @@ class Player(Entity):
         #포커스를 완료하고 효과 적용
         print(f"\n=== Focus Completed: {focus_name} ===")
         print(self.focus_dict[focus_name]["description"])
-        utils.debug_print(self.focus_dict[focus_name])
-        utils.debug_print(self.focus_dict[focus_name]["effect"])
         # TODO:포커스 효과 적용
         for effect_name, effect_value in self.focus_dict[focus_name]["effect"].items():
             if effect_name == "add_behavior":
