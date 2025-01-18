@@ -1,5 +1,6 @@
 {pkgs}: {
   deps = [
+    pkgs.mypy
     pkgs.coreutils
     pkgs.portmidi
     pkgs.pkg-config

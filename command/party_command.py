@@ -39,9 +39,9 @@ class PartyControlCommand(Command):
             player.call_party_member(ally_name).increase_compliance(10)
         elif sub_command == "2":
             player.toggle_passive_control()
-            print(f"현재 MP: {player.stats.mp}")
+            print(f"현재 MP: {player.get_mp()}")
         elif sub_command == "3":
             player.martial_law()
-            print(f"현재 MP: {player.stats.mp}")
+            print(f"현재 MP: {player.get_mp()}")
         else:
             print("잘못된 입력입니다.")
