@@ -13,19 +13,19 @@ if TYPE_CHECKING:# 타입 검사 시에만 import
 console = Console()
 
 class Command:
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         pass
 
 class InfoCommand(Command):
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         dungeon.show_cur_floor_info()
         player.show_info()
         
 class QuitCommand(Command):
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         print("Quitting the game...")
         exit()
 
 class FailSafeCommand(Command):
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         print("정의되지 않은 동작 또는 입력입니다. 입력은 무시되었습니다.")

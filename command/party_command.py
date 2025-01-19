@@ -14,7 +14,7 @@ class PartyCommand(Command):
             "control":PartyControlCommand(),
         }
         
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         sub_command = Prompt.ask("[bold cyan]선택해주세요[/bold cyan]\n1.파티 확인 2.파티 멤버 \"관리\"")
         if sub_command == "1":
             self.sub_commands["show"].execute(game, dungeon, player)
@@ -24,11 +24,11 @@ class PartyCommand(Command):
             print("유효하지 않은 커맨드입니다.")
 
 class PartyShowCommand(Command):
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         player.show_party()
 
 class PartyControlCommand(Command):
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         player.show_party()
         
         sub_command = Prompt.ask("[bold cyan]선택해주세요[/bold cyan]\n1.수동 제어 2.자동 제어 설정 3.계엄령")

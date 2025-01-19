@@ -16,7 +16,7 @@ class ExploreCommand(Command):
             "pick": ExplorePickCommand(),
         }
 
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         print("탐색중...")
         event = dungeon.get_random_element()
         
@@ -36,7 +36,7 @@ class ExploreCommand(Command):
     def _handle_battle_event(self, game, dungeon, player, event):
         print(f"{'보스 ' if event.group == 'boss' else ''}전투 시작:", event.name)
         command_key = "boss_fight" if event.group == "boss" else "fight"
-        self.sub_commands[command_key].execute(game, dungeon, player)
+        self.sub_commands[command_key].execute(game, dungeon, player, enemy_name=event.name)
 
     def _handle_item_event(self, game, dungeon, player, event):
         print("아이템 발견:", event.name)
@@ -84,7 +84,7 @@ class BattleBase(Command):
         return False
 
 class ExploreFightCommand(BattleBase):
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         enemy = dungeon.make_enemy(game.enemy[kwargs["enemy_name"]])
         enemy.appear()
         enemy.show_info()
@@ -112,7 +112,7 @@ class ExploreBossFightCommand(BattleBase):
             "after_boss_fight": AfterBossFightCommand(),
         }
 
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         boss = dungeon.make_boss(game.boss[kwargs["enemy_name"]])
         boss.show_script("before_fight")
         boss.show_info()
@@ -127,18 +127,18 @@ class ExploreBossFightCommand(BattleBase):
                 self._post_battle_phase(fighter, boss)
                 
                 if self._check_battle_result(player, boss, fighter, dungeon):
-                    self.sub_commands["after_boss_fight"].execute(game, dungeon, player)
+                    self.sub_commands["after_boss_fight"].execute(game, dungeon, player, boss=boss)
                     break
                 boss.show_info()
 
 class ExplorePickCommand(Command):
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         item_name = kwargs.get("item_name")
         if item_name in game.item_list:
             player.add_item(game.item_list[item_name])
 
 class AfterBossFightCommand(Command):
-    def execute(self, game: Game, dungeon: Dungeon, player: Player, *args, **kwargs):
+    def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         boss = kwargs["boss"]
         boss_name = boss.name
         boss.show_script("after_fight")

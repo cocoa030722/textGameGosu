@@ -20,7 +20,7 @@ class Item():
         self.attack_bonus = item_data.get("attack_bonus", 0)
         self.reduce_resistance = item_data.get("reduce_resistance", 0)
         
-    def use(self, player: Player):
+    def use(self, player: "Player"):
         """
         아이템 타입에 따라 다른 효과를 적용합니다.
         """
