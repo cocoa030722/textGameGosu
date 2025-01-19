@@ -36,6 +36,35 @@ class Game:
         self.turn:int = 0
         #TODO:디버그 모드 구현
         self.debug:bool = False
+
+    def toggle_debug(self):
+        self.debug = not self.debug
+        print(f"Debug mode {'enabled' if self.debug else 'disabled'}")
+
+    def debug_command(self, command:str):
+        if not self.debug:
+            return
+            
+        args = command.split()
+        if args[0] == "floor":
+            self.dungeon.current_floor = int(args[1])
+            print(f"Moved to floor {args[1]}")
+        elif args[0] == "hp":
+            self.player.stats.health = int(args[1])
+            print(f"Set HP to {args[1]}")
+        elif args[0] == "mp":
+            self.player.stats.mp = int(args[1])
+            print(f"Set MP to {args[1]}")
+        elif args[0] == "atk":
+            self.player.stats.attack_power = int(args[1])
+            print(f"Set attack power to {args[1]}")
+        elif args[0] == "def":
+            self.player.stats.defense_power = int(args[1])
+            print(f"Set defense power to {args[1]}")
+        elif args[0] == "exp":
+            self.player.stats.exp = int(args[1])
+            print(f"Set EXP to {args[1]}")
+
     def run(self):
         """
         게임의 최상위 로직입니다.
@@ -50,8 +79,9 @@ class Game:
         while self.player.stats.health > 0:#게임 루프를 계속할 조건
             # 턴 시작 처리 
             self.process_pre_turn()
-            print("헌재 턴:", self.turn)
-            action = input("1.정보 2.탐험 3.종료 4.중점 5.인벤토리 6.파티").split(" ")
+            print("현재 턴:", self.turn)
+            debug_str = "[Debug Mode]" if self.debug else ""
+            action = input(f"{debug_str}1.정보 2.탐험 3.종료 4.중점 5.인벤토리 6.파티 7.디버그").split(" ")
             
             if action[0] == "1":
                 self.commands["info"].execute(self, self.dungeon)
@@ -65,6 +95,11 @@ class Game:
                 self.commands["inven"].execute(self, self.dungeon)
             elif action[0] == "6":
                 self.commands["party"].execute(self, self.dungeon)
+            elif action[0] == "7":
+                if len(action) == 1:
+                    self.toggle_debug()
+                else:
+                    self.debug_command(" ".join(action[1:]))
             else:
                 self.commands["failsafe"].execute(self, self.dungeon)
             
