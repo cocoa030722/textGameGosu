@@ -164,6 +164,43 @@ class Player(Entity):
         self.completed_focuses.append(self.focus_dict[focus_name]["id"])
         print("Focus effect applied!")
     
+    def save_game(self):
+        save_data = {
+            "name": self.name,
+            "health": self.stats.health,
+            "attack_power": self.stats.attack_power,
+            "defense_power": self.stats.defense_power,
+            "exp": self.stats.exp,
+            "mp": self.stats.mp,
+            "max_mp": self.stats.max_mp,
+            "speed": self.stats.speed,
+            "level": self.level,
+            "focus_points": self.focus_points,
+            "completed_focuses": self.completed_focuses
+        }
+        with open("json/save.json", "w", encoding='utf-8') as f:
+            json.dump(save_data, f, ensure_ascii=False, indent=4)
+        print("게임이 저장되었습니다!")
+
+    def load_game(self):
+        try:
+            with open("json/save.json", "r", encoding='utf-8') as f:
+                save_data = json.load(f)
+                self.name = save_data["name"]
+                self.stats.health = save_data["health"]
+                self.stats.attack_power = save_data["attack_power"]
+                self.stats.defense_power = save_data["defense_power"]
+                self.stats.exp = save_data["exp"]
+                self.stats.mp = save_data["mp"]
+                self.stats.max_mp = save_data["max_mp"]
+                self.stats.speed = save_data["speed"]
+                self.level = save_data["level"]
+                self.focus_points = save_data["focus_points"]
+                self.completed_focuses = save_data["completed_focuses"]
+                print("저장된 게임을 불러왔습니다!")
+        except FileNotFoundError:
+            print("저장된 게임이 없습니다!")
+
     def pre_turn(self):
         super().pre_turn()
         if self.passive_control_enabled:

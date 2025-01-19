@@ -81,7 +81,7 @@ class Game:
             self.process_pre_turn()
             print("현재 턴:", self.turn)
             debug_str = "[Debug Mode]" if self.debug else ""
-            action = input(f"{debug_str}1.정보 2.탐험 3.종료 4.중점 5.인벤토리 6.파티 7.디버그").split(" ")
+            action = input(f"{debug_str}1.정보 2.탐험 3.종료 4.중점 5.인벤토리 6.파티 7.디버그 8.저장 9.불러오기").split(" ")
             
             if action[0] == "1":
                 self.commands["info"].execute(self, self.dungeon, self.player)
@@ -100,6 +100,10 @@ class Game:
                     self.toggle_debug()
                 else:
                     self.debug_command(" ".join(action[1:]))
+            elif action[0] == "8":
+                self.player.save_game()
+            elif action[0] == "9":
+                self.player.load_game()
             else:
                 self.commands["failsafe"].execute(self, self.dungeon)
             
