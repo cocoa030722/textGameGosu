@@ -8,6 +8,7 @@ from player.player import Player
 from factory.command_factory import CommandFactory
 from dungeon import Dungeon
 import utils
+from type_definitions import DungeonType, ItemDict
 
 class Game:
     """
@@ -29,12 +30,10 @@ class Game:
         self.enemy:dict = utils.load_json("json/enemys.json")
         self.boss:dict = utils.read_all_json("json/boss")
         self.ally:dict = utils.read_all_json("json/ally")
-        self.item_list:dict = utils.load_json("json/items.json")
+        self.item_list:ItemDict = utils.load_item_dict("json/items.json")
         self.commands:dict = CommandFactory.create_commands()
         self.dungeon:Dungeon = Dungeon()
-        #TODO:턴 개념 구현
         self.turn:int = 0
-        #TODO:디버그 모드 구현
         self.debug:bool = False
 
     def toggle_debug(self):

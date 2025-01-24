@@ -4,14 +4,8 @@
 import json
 import os
 import inspect
-
-# JSON 파일 로드
-def load_json(file_path:str) -> dict:
-    """
-    하나의 json을 딕셔너리로 반환합니다.
-    """
-    with open(file_path, "r", encoding='utf-8') as file:
-        return json.load(file)
+from typing import Union
+from type_definitions import FocusTree, ItemDict, Boss
 
 def read_all_json(directory:str) -> dict:
     """
@@ -35,6 +29,24 @@ def read_all_json(directory:str) -> dict:
         print(f"An error occurred: {e}")
     
     return json_data
-def load_json(file_path: str) -> Union[FocusTree, ItemDict, Boss]:
+    
+def load_focus_tree(file_path: str) -> FocusTree:
     with open(file_path, 'r', encoding='utf-8') as f:
         return json.load(f)
+
+def load_item_dict(file_path: str) -> ItemDict:
+    with open(file_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def load_boss(file_path: str) -> Boss:
+    with open(file_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+# JSON 파일 로드
+def load_json(file_path) -> dict:
+    """
+    하나의 json을 딕셔너리로 반환합니다.
+    """
+    with open(file_path, "r") as file:
+        return json.load(file)
+
