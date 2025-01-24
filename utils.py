@@ -35,3 +35,6 @@ def read_all_json(directory:str) -> dict:
         print(f"An error occurred: {e}")
     
     return json_data
+def load_json(file_path: str) -> Union[FocusTree, ItemDict, Boss]:
+    with open(file_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
