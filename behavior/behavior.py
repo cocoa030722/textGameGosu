@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, List
 if TYPE_CHECKING:  # 타입 검사 시에만 import
     from entity import Entity
-    from ally import Ally
+    from ally.ally import Ally
 
 class Behavior(ABC):
     @abstractmethod
