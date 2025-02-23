@@ -58,7 +58,7 @@ class Player(Entity):
             ally.compliance = min(100, ally.compliance + 5)
             print(f"{ally.name}의 저항도/순응도가 변화했습니다. (저항도: {ally.resistance}, 순응도: {ally.compliance})")
             
-    def martial_law(self):
+    def direct_rule(self):
         """대량의 MP를 소모하여 모든 동료의 순응도를 최대치로, 저항도를 최저치로 만듭니다."""
         if self.stats.mp < 50:
             print("MP가 부족합니다!")

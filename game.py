@@ -1,7 +1,7 @@
 """
 실질적인 게임의 최상위 제어 흐름을 담당하는 파일입니다.
 이상적으로는, 유저 입력은 숫자 패드만으로도 가능하도록 합니다.
-이를 위해 유저 입력은 하나의 숫자(반드시 한 자리 숫자일 필요는 없음)를 문자열로서 대조하는 방식으로 처리합니다.
+이를 위해 유저 입력은 하나의 숫자를 문자열로서 대조하는 방식으로 처리합니다.
 """
 from behavior.behavior import Behavior
 from player.player import Player
@@ -104,7 +104,7 @@ class Game:
             elif action[0] == "9":
                 self.player.load_game()
             else:
-                self.commands["failsafe"].execute(self, self.dungeon)
+                self.commands["failsafe"].execute(self, self.dungeon, self.player)
             
             # 턴 종료 처리
             self.turn += 1

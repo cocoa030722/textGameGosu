@@ -31,7 +31,7 @@ class PartyControlCommand(Command):
     def execute(self, game: "Game", dungeon: "Dungeon", player: "Player", *args, **kwargs):
         player.show_party()
         
-        sub_command = Prompt.ask("[bold cyan]선택해주세요[/bold cyan]\n1.수동 제어 2.자동 제어 설정 3.계엄령")
+        sub_command = Prompt.ask("[bold cyan]선택해주세요[/bold cyan]\n1.수동 제어 2.자동 제어 설정 3.direct rule_")
         
         if sub_command == "1":
             ally_name = Prompt.ask("[bold cyan]동료 이름을 입력하세요[/bold cyan]")
@@ -41,7 +41,7 @@ class PartyControlCommand(Command):
             player.toggle_passive_control()
             print(f"현재 MP: {player.get_mp()}")
         elif sub_command == "3":
-            player.martial_law()
+            player.direct_rule()
             print(f"현재 MP: {player.get_mp()}")
         else:
             print("잘못된 입력입니다.")
